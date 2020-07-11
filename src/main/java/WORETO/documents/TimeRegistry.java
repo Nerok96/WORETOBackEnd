@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.Scanner;
 
 @Document
 public class TimeRegistry {
@@ -28,6 +29,10 @@ public class TimeRegistry {
     public TimeRegistry(User createdByUser) {
         this.createdByUser = createdByUser;
         this.cretatedAtLocalDateTime = LocalDateTime.now();
+    }
+
+    public static Builder builder(User createdByUser) {
+        return new Builder(createdByUser);
     }
 
     public String getId() {
@@ -68,6 +73,13 @@ public class TimeRegistry {
 
     public void setMinutesWorked(Integer minutesWorked) {
         this.minutesWorked = minutesWorked;
+    }
+
+    public void setMinutesWorkedFromString(String stringMinutesWorked){
+        Scanner in = new Scanner(stringMinutesWorked).useDelimiter(":");
+        Integer hoursInMinutes = in.nextInt()*60;
+        Integer minutes = in.nextInt();
+        this.minutesWorked =  hoursInMinutes + minutes;
     }
 
     public Status getStatus() {
@@ -124,5 +136,57 @@ public class TimeRegistry {
                 ", lastModifiedByUser=" + lastModifiedByUser +
                 ", lastModifiedLocalDateTime=" + lastModifiedLocalDateTime +
                 '}';
+    }
+
+    public static class Builder {
+        private TimeRegistry timeRegistry;
+
+        private Builder(User createdByUser){
+            this.timeRegistry = new TimeRegistry(createdByUser);
+        }
+
+        public Builder assignedUser(User assignedUser){
+            this.timeRegistry.setAssignedUser(assignedUser);
+            return this;
+        }
+
+        public Builder assignedProject (Project assignedProject){
+            this.timeRegistry.setAssignedProject(assignedProject);
+            return this;
+        }
+
+        public Builder assignedLocalDateTime (LocalDateTime assignedLocalDateTime){
+            this.timeRegistry.setAssignedLocalDateTime(assignedLocalDateTime);
+            return this;
+        }
+
+        public Builder minutesWorked (Integer minutesWorked){
+            this.timeRegistry.setMinutesWorked(minutesWorked);
+            return this;
+        }
+
+        public Builder minutesWorked (String stringMinutesWorked){
+            this.timeRegistry.setMinutesWorkedFromString(stringMinutesWorked);
+            return this;
+        }
+
+        public Builder status (Status status){
+            this.timeRegistry.setStatus(status);
+            return this;
+        }
+
+        public Builder lastModifiedByUser (User lastModifiedByUser){
+            this.timeRegistry.setLastModifiedByUser(lastModifiedByUser);
+            return this;
+        }
+
+        public Builder lastModifiedLocalDateTime (LocalDateTime lastModifiedLocalDateTime){
+            this.timeRegistry.setLastModifiedLocalDateTime(lastModifiedLocalDateTime);
+            return this;
+        }
+
+        public TimeRegistry build() {
+            return this.timeRegistry;
+        }
     }
 }
