@@ -1,6 +1,7 @@
 package WORETO.documents;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
 
@@ -8,6 +9,9 @@ import java.util.Arrays;
 
 @Document
 public class User {
+
+    @Transient
+    public static final String SEQUENCE_NAME = "time-registries_sequence";
 
     @Id
     private String id;
