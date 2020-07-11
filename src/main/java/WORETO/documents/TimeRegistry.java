@@ -75,11 +75,22 @@ public class TimeRegistry {
         this.minutesWorked = minutesWorked;
     }
 
-    public void setMinutesWorkedFromString(String stringMinutesWorked){
-        Scanner in = new Scanner(stringMinutesWorked).useDelimiter(":");
-        Integer hoursInMinutes = in.nextInt()*60;
-        Integer minutes = in.nextInt();
-        this.minutesWorked =  hoursInMinutes + minutes;
+    public boolean setMinutesWorkedFromString(String stringMinutesWorked){
+        if(isValidStringMinutesWorked(stringMinutesWorked)) {
+            Scanner in = new Scanner(stringMinutesWorked).useDelimiter(":");
+            Integer hoursInMinutes = in.nextInt() * 60;
+            Integer minutes = in.nextInt();
+            this.minutesWorked = hoursInMinutes + minutes;
+            return true;
+        }else {
+            this.minutesWorked = -1;
+            return false;
+        }
+    }
+
+    private boolean isValidStringMinutesWorked(String stringMinutesWorked){
+        //Checks format HH:MM, eg: 12:34
+        return stringMinutesWorked.matches("\\d{2}:\\d{2}");
     }
 
     public Status getStatus() {

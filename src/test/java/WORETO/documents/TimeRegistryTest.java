@@ -2,11 +2,11 @@ package WORETO.documents;
 
 import org.junit.jupiter.api.Test;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.Period;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TimeRegistryTest {
 
@@ -37,4 +37,17 @@ public class TimeRegistryTest {
         assertEquals(ldt.plus(Period.ofDays(1)),timeRegistry.getLastModifiedLocalDateTime());
         assertNotEquals("NO_EMAIL", timeRegistry.getAssignedUser().getEmail());
     }
+
+    @Test
+    void TestSetMinutesWorkedFromString(){
+        TimeRegistry tr = new TimeRegistry(new User());
+        assertTrue(tr.setMinutesWorkedFromString("12:23"));
+        assertFalse(tr.setMinutesWorkedFromString("Hello"));
+        assertFalse(tr.setMinutesWorkedFromString("123:12"));
+        assertFalse(tr.setMinutesWorkedFromString("1a:12"));
+        assertFalse(tr.setMinutesWorkedFromString("12:123"));
+        assertFalse(tr.setMinutesWorkedFromString("12:1a"));
+        assertFalse(tr.setMinutesWorkedFromString("123:123"));
+    }
+
 }
