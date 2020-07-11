@@ -22,13 +22,13 @@ public class TimeRegistry {
 
     //Audit fields
     private User createdByUser;
-    private LocalDateTime cretatedAtLocalDateTime;
+    private LocalDateTime createdAtLocalDateTime;
     private User lastModifiedByUser;
     private LocalDateTime lastModifiedLocalDateTime;
 
     public TimeRegistry(User createdByUser) {
         this.createdByUser = createdByUser;
-        this.cretatedAtLocalDateTime = LocalDateTime.now();
+        this.createdAtLocalDateTime = LocalDateTime.now();
     }
 
     public static Builder builder(User createdByUser) {
@@ -109,12 +109,12 @@ public class TimeRegistry {
         this.createdByUser = createdByUser;
     }
 
-    public LocalDateTime getCretatedAtLocalDateTime() {
-        return cretatedAtLocalDateTime;
+    public LocalDateTime getCreatedAtLocalDateTime() {
+        return createdAtLocalDateTime;
     }
 
-    public void setCretatedAtLocalDateTime(LocalDateTime cretatedAtLocalDateTime) {
-        this.cretatedAtLocalDateTime = cretatedAtLocalDateTime;
+    public void setCreatedAtLocalDateTime(LocalDateTime createdAtLocalDateTime) {
+        this.createdAtLocalDateTime = createdAtLocalDateTime;
     }
 
     public User getLastModifiedByUser() {
@@ -143,7 +143,7 @@ public class TimeRegistry {
                 ", minutesWorked=" + minutesWorked +
                 ", status=" + status +
                 ", createdByUser=" + createdByUser +
-                ", cretatedAtLocalDateTime=" + cretatedAtLocalDateTime +
+                ", cretatedAtLocalDateTime=" + createdAtLocalDateTime +
                 ", lastModifiedByUser=" + lastModifiedByUser +
                 ", lastModifiedLocalDateTime=" + lastModifiedLocalDateTime +
                 '}';
