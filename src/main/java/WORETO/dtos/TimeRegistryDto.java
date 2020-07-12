@@ -15,6 +15,7 @@ public class TimeRegistryDto {
     private LocalDateTime assignedLocalDateTime;
     private Integer minutesWorked;
     private Status status;
+    private String description;
     private User createdByUser;
     private LocalDateTime createdAtLocalDateTime;
     private User lastModifiedByUser;
@@ -29,6 +30,7 @@ public class TimeRegistryDto {
         this.assignedLocalDateTime = timeRegistry.getAssignedLocalDateTime();
         this.minutesWorked = timeRegistry.getMinutesWorked();
         this.status = timeRegistry.getStatus();
+        this.description = timeRegistry.getDescription();
         this.createdByUser = timeRegistry.getCreatedByUser();
         this.createdAtLocalDateTime = timeRegistry.getCreatedAtLocalDateTime();
         this.lastModifiedByUser = timeRegistry.getLastModifiedByUser();
@@ -83,6 +85,14 @@ public class TimeRegistryDto {
         this.status = status;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public User getCreatedByUser() {
         return createdByUser;
     }
@@ -113,5 +123,22 @@ public class TimeRegistryDto {
 
     public void setLastModifiedLocalDateTime(LocalDateTime lastModifiedLocalDateTime) {
         this.lastModifiedLocalDateTime = lastModifiedLocalDateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "TimeRegistryDto{" +
+                "id='" + id + '\'' +
+                ", assignedUser=" + assignedUser +
+                ", assignedProject=" + assignedProject +
+                ", assignedLocalDateTime=" + assignedLocalDateTime +
+                ", minutesWorked=" + minutesWorked +
+                ", status=" + status +
+                ", description='" + description + '\'' +
+                ", createdByUser=" + createdByUser +
+                ", createdAtLocalDateTime=" + createdAtLocalDateTime +
+                ", lastModifiedByUser=" + lastModifiedByUser +
+                ", lastModifiedLocalDateTime=" + lastModifiedLocalDateTime +
+                '}';
     }
 }
