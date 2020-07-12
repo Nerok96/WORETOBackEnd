@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class User {
 
     @Transient
-    public static final String SEQUENCE_NAME = "time-registries_sequence";
+    public static final String SEQUENCE_NAME = "users_sequence";
 
     @Id
     private String id;
