@@ -12,30 +12,60 @@ public class TimeRegistryTest {
 
     @Test
     void testTimeRegistryBuilder(){
-        LocalDateTime ldt = LocalDateTime.now();
-        User createdByUser = new User();
-        createdByUser.setEmail("test@test.com");
+        String id  = "1";
+        User assignedUser = new User();
+        assignedUser.setEmail("assigned@useremail.com");
         Project project = new Project();
-        project.setProjectName("Project test");
-        Status statusDraft = Status.DRAFT;
-        TimeRegistry timeRegistry = TimeRegistry.builder(createdByUser)
-                .assignedUser(createdByUser)
+        project.setProjectName("Project");
+        LocalDateTime ldtAssigned = LocalDateTime.now();
+        Integer minutesWorked = 12;
+        Status status = Status.BILLED;
+        String description = "Working hard";
+        User createdByUser = new User();
+        createdByUser.setEmail("created@useremail.com");
+        User lastModifiedByUser = new User();
+        createdByUser.setEmail("lastmodified@useremail.com");
+        LocalDateTime ldtLastModified = LocalDateTime.now().plusDays(1);
+
+        TimeRegistry timeRegistry = new TimeRegistry();
+        timeRegistry.setId(id);
+        timeRegistry.setAssignedUser(assignedUser);
+        timeRegistry.setAssignedProject(project);
+        timeRegistry.setAssignedLocalDateTime(ldtAssigned);
+        timeRegistry.setMinutesWorked(minutesWorked);
+        timeRegistry.setStatus(status);
+        timeRegistry.setDescription(description);
+        timeRegistry.setCreatedByUser(createdByUser);
+        timeRegistry.setLastModifiedByUser(lastModifiedByUser);
+        timeRegistry.setLastModifiedLocalDateTime(ldtLastModified);
+
+        TimeRegistry timeRegistryBuilder = TimeRegistry.builder()
+                .id(id)
+                .assignedUser(assignedUser)
                 .assignedProject(project)
-                .assignedLocalDateTime(ldt)
-                .minutesWorked(10)
-                .status(statusDraft)
-                .lastModifiedByUser(createdByUser)
-                .lastModifiedLocalDateTime(ldt.plus(Period.ofDays(1)))
+                .assignedLocalDateTime(ldtAssigned)
+                .minutesWorked(minutesWorked)
+                .status(status)
+                .description(description)
+                .createdByUser(createdByUser)
+                .lastModifiedByUser(lastModifiedByUser)
+                .lastModifiedLocalDateTime(ldtLastModified)
                 .build();
-        assertEquals(createdByUser.getEmail(),timeRegistry.getAssignedUser().getEmail());
-        assertEquals(project.getProjectName(),timeRegistry.getAssignedProject().getProjectName());
-        assertEquals(ldt,timeRegistry.getAssignedLocalDateTime());
-        assertEquals(10,timeRegistry.getMinutesWorked().intValue());
-        assertEquals(statusDraft,timeRegistry.getStatus());
-        assertEquals(createdByUser.getEmail(),timeRegistry.getCreatedByUser().getEmail());
-        assertEquals(createdByUser.getEmail(),timeRegistry.getLastModifiedByUser().getEmail());
-        assertEquals(ldt.plus(Period.ofDays(1)),timeRegistry.getLastModifiedLocalDateTime());
-        assertNotEquals("NO_EMAIL", timeRegistry.getAssignedUser().getEmail());
+
+        assertEquals(timeRegistry.getId(),timeRegistryBuilder.getId());
+        assertEquals(timeRegistry.getAssignedUser().getEmail(),timeRegistryBuilder.getAssignedUser().getEmail());
+        assertEquals(timeRegistry.getAssignedProject().getProjectName(),
+                timeRegistryBuilder.getAssignedProject().getProjectName());
+        assertEquals(timeRegistry.getAssignedLocalDateTime(),timeRegistryBuilder.getAssignedLocalDateTime());
+        assertEquals(timeRegistry.getMinutesWorked(),timeRegistryBuilder.getMinutesWorked());
+        assertEquals(timeRegistry.getStatus(),timeRegistryBuilder.getStatus());
+        assertEquals(timeRegistry.getDescription(),timeRegistryBuilder.getDescription());
+        assertEquals(timeRegistry.getCreatedByUser().getEmail(),
+                timeRegistryBuilder.getCreatedByUser().getEmail());
+        assertEquals(timeRegistry.getLastModifiedLocalDateTime(),
+                timeRegistryBuilder.getLastModifiedLocalDateTime());
+        assertEquals(timeRegistry.getLastModifiedByUser().getEmail(),
+                timeRegistryBuilder.getLastModifiedByUser().getEmail());
     }
 
     @Test
