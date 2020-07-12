@@ -1,6 +1,6 @@
-package WORETO.resources;
+package WORETO.resources.users;
 
-import WORETO.business_controller.TimeRegistryController;
+import WORETO.business_controller.users.TimeRegistryController;
 import WORETO.dtos.TimeRegistryDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

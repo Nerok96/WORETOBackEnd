@@ -1,7 +1,8 @@
-package WORETO.resources;
+package WORETO.resources.users;
 
 import WORETO.documents.Status;
 import WORETO.dtos.TimeRegistryDto;
+import WORETO.resources.ApiTestConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.time.LocalDateTime;
 
-import static WORETO.resources.TimeRegistryResource.TIME_REGISTRIES;
-import static WORETO.resources.TimeRegistryResource.TIME_REGISTRIES_ID;
+import static WORETO.resources.users.TimeRegistryResource.TIME_REGISTRIES;
+import static WORETO.resources.users.TimeRegistryResource.TIME_REGISTRIES_ID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ApiTestConfig
