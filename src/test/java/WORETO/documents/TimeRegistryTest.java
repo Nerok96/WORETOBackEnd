@@ -2,9 +2,7 @@ package WORETO.documents;
 
 import org.junit.jupiter.api.Test;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
-import java.time.Period;
 
 import static org.junit.jupiter.api.Assertions.*;
 
