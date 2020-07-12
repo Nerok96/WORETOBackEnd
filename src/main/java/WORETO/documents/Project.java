@@ -12,12 +12,16 @@ public class Project {
 
     @Id
     private String id;
-    private String ClientId;
-    private String MatterId;
-    private String ProjectName;
+    private String clientId;
+    private String matterId;
+    private String projectName;
     private User[] partnerList;
 
     public Project() {}
+
+    public static Builder builder() {
+        return new Builder();
+    }
 
     public String getId() {
         return id;
@@ -33,27 +37,27 @@ public class Project {
 
 
     public String getClientId() {
-        return ClientId;
+        return clientId;
     }
 
     public void setClientId(String clientId) {
-        ClientId = clientId;
+        this.clientId = clientId;
     }
 
     public String getMatterId() {
-        return MatterId;
+        return matterId;
     }
 
     public void setMatterId(String matterId) {
-        MatterId = matterId;
+        this.matterId = matterId;
     }
 
     public String getProjectName() {
-        return ProjectName;
+        return projectName;
     }
 
     public void setProjectName(String projectName) {
-        ProjectName = projectName;
+        this.projectName = projectName;
     }
 
     public User[] getPartnerList() {
@@ -68,10 +72,52 @@ public class Project {
     public String toString() {
         return "Project{" +
                 "id='" + id + '\'' +
-                ", ClientId='" + ClientId + '\'' +
-                ", MatterId='" + MatterId + '\'' +
-                ", ProjectName='" + ProjectName + '\'' +
+                ", ClientId='" + clientId + '\'' +
+                ", MatterId='" + matterId + '\'' +
+                ", ProjectName='" + projectName + '\'' +
                 ", partnerList=" + Arrays.toString(partnerList) +
                 '}';
+    }
+
+    public static class Builder {
+        private Project project;
+
+        private Builder() {
+            this.project = new Project();
+        }
+
+        public Builder id(String id){
+            this.project.id = id;
+            return this;
+        }
+
+        public Builder id(Long id){
+            this.project.id = ""+id;
+            return this;
+        }
+
+        public Builder clientId(String clientId){
+            this.project.clientId = clientId;
+            return this;
+        }
+
+        public Builder matterId(String matterId){
+            this.project.matterId = matterId;
+            return this;
+        }
+
+        public Builder projectName(String projectName){
+            this.project.projectName = projectName;
+            return this;
+        }
+
+        public Builder partnerList(User... partnerList){
+            this.project.partnerList = partnerList;
+            return this;
+        }
+
+        public Project build() {
+            return this.project;
+        }
     }
 }
