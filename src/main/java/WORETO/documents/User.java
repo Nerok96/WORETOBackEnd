@@ -26,12 +26,20 @@ public class User {
 
     public User(){}
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setIdFromLong(Long id) {
+        this.id = "" + id;
     }
 
     public String getEmail() {
@@ -94,4 +102,57 @@ public class User {
                 ", roles=" + Arrays.toString(roles) +
                 '}';
     }
+
+    public static class Builder {
+        private User user;
+
+        private Builder() {
+            this.user = new User();
+        }
+
+        public Builder id(String id){
+            this.user.id = id;
+            return this;
+        }
+
+        public Builder id(Long id){
+            this.user.id = ""+id;
+            return this;
+        }
+
+        public Builder email(String email){
+            this.user.email = email;
+            return this;
+        }
+
+        public Builder name(String name){
+            this.user.name = name;
+            return this;
+        }
+
+        public Builder surname(String surname){
+            this.user.surname = surname;
+            return this;
+        }
+
+        public Builder enable(Boolean enable){
+            this.user.enable = enable;
+            return this;
+        }
+
+        public Builder password(String password){
+            this.user.password = password;
+            return this;
+        }
+
+        public Builder roles(Role... roles) {
+            this.user.roles = roles;
+            return this;
+        }
+
+        public User build() {
+            return this.user;
+        }
+    }
+
 }

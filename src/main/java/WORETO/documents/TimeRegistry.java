@@ -23,20 +23,25 @@ public class TimeRegistry {
     private LocalDateTime assignedLocalDateTime;
     private Integer minutesWorked;
     private Status status;
+    private String description;
 
     //Audit fields
+    @DBRef
     private User createdByUser;
     private LocalDateTime createdAtLocalDateTime;
+    @DBRef
     private User lastModifiedByUser;
     private LocalDateTime lastModifiedLocalDateTime;
+
+    public TimeRegistry(){}
 
     public TimeRegistry(User createdByUser) {
         this.createdByUser = createdByUser;
         this.createdAtLocalDateTime = LocalDateTime.now();
     }
 
-    public static Builder builder(User createdByUser) {
-        return new Builder(createdByUser);
+    public static Builder builder() {
+        return new Builder();
     }
 
     public String getId() {
@@ -45,6 +50,10 @@ public class TimeRegistry {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setIdFromLong(Long id) {
+        this.id = "" + id;
     }
 
     public User getAssignedUser() {
@@ -137,6 +146,14 @@ public class TimeRegistry {
         this.lastModifiedLocalDateTime = lastModifiedLocalDateTime;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "TimeRegistry{" +
@@ -146,8 +163,9 @@ public class TimeRegistry {
                 ", assignedLocalDateTime=" + assignedLocalDateTime +
                 ", minutesWorked=" + minutesWorked +
                 ", status=" + status +
+                ", description='" + description + '\'' +
                 ", createdByUser=" + createdByUser +
-                ", cretatedAtLocalDateTime=" + createdAtLocalDateTime +
+                ", createdAtLocalDateTime=" + createdAtLocalDateTime +
                 ", lastModifiedByUser=" + lastModifiedByUser +
                 ", lastModifiedLocalDateTime=" + lastModifiedLocalDateTime +
                 '}';
@@ -156,47 +174,63 @@ public class TimeRegistry {
     public static class Builder {
         private TimeRegistry timeRegistry;
 
-        private Builder(User createdByUser){
-            this.timeRegistry = new TimeRegistry(createdByUser);
+        private Builder(){
+            this.timeRegistry = new TimeRegistry();
+            this.timeRegistry.createdAtLocalDateTime = LocalDateTime.now();
+        }
+
+        public Builder id(String id){
+            this.timeRegistry.id = id;
+            return this;
+        }
+
+        public Builder id(long id){
+            this.timeRegistry.id = "" + id;
+            return this;
         }
 
         public Builder assignedUser(User assignedUser){
-            this.timeRegistry.setAssignedUser(assignedUser);
+            this.timeRegistry.assignedUser = assignedUser;
             return this;
         }
 
         public Builder assignedProject (Project assignedProject){
-            this.timeRegistry.setAssignedProject(assignedProject);
+            this.timeRegistry.assignedProject = assignedProject;
             return this;
         }
 
         public Builder assignedLocalDateTime (LocalDateTime assignedLocalDateTime){
-            this.timeRegistry.setAssignedLocalDateTime(assignedLocalDateTime);
+            this.timeRegistry.assignedLocalDateTime = assignedLocalDateTime;
             return this;
         }
 
         public Builder minutesWorked (Integer minutesWorked){
-            this.timeRegistry.setMinutesWorked(minutesWorked);
-            return this;
-        }
-
-        public Builder minutesWorked (String stringMinutesWorked){
-            this.timeRegistry.setMinutesWorkedFromString(stringMinutesWorked);
+            this.timeRegistry.minutesWorked = minutesWorked;
             return this;
         }
 
         public Builder status (Status status){
-            this.timeRegistry.setStatus(status);
+            this.timeRegistry.status = status;
+            return this;
+        }
+
+        public Builder description(String description){
+            this.timeRegistry.description = description;
+            return this;
+        }
+
+        public Builder createdByUser(User createdByUser){
+            this.timeRegistry.createdByUser = createdByUser;
             return this;
         }
 
         public Builder lastModifiedByUser (User lastModifiedByUser){
-            this.timeRegistry.setLastModifiedByUser(lastModifiedByUser);
+            this.timeRegistry.lastModifiedByUser = lastModifiedByUser;
             return this;
         }
 
         public Builder lastModifiedLocalDateTime (LocalDateTime lastModifiedLocalDateTime){
-            this.timeRegistry.setLastModifiedLocalDateTime(lastModifiedLocalDateTime);
+            this.timeRegistry.lastModifiedLocalDateTime = lastModifiedLocalDateTime;
             return this;
         }
 
