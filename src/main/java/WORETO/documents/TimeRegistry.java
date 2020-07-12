@@ -164,6 +164,16 @@ public class TimeRegistry {
             this.timeRegistry = new TimeRegistry(createdByUser);
         }
 
+        public Builder id(String id){
+            this.timeRegistry.setId(id);
+            return this;
+        }
+
+        public Builder id(long id){
+            this.timeRegistry.setIdFromLong(id);
+            return this;
+        }
+
         public Builder assignedUser(User assignedUser){
             this.timeRegistry.setAssignedUser(assignedUser);
             return this;
