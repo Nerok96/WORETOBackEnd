@@ -27,4 +27,8 @@ public class SequenceGenerator {
         return !Objects.isNull(dbseq) ? dbseq.getSeq() : 1;
     }
 
+    public void deleteAllDatabaseSequence(){
+        mongo.dropCollection("database_sequences");
+    }
+
 }
