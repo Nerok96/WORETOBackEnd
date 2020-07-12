@@ -1,4 +1,4 @@
-package WORETO.business_controller;
+package WORETO.business_controller.users;
 
 import WORETO.dtos.TimeRegistryDto;
 import WORETO.repositories.TimeRegistryReactRepository;
