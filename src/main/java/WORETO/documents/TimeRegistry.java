@@ -1,6 +1,7 @@
 package WORETO.documents;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,6 +10,9 @@ import java.util.Scanner;
 
 @Document
 public class TimeRegistry {
+
+    @Transient
+    public static final String SEQUENCE_NAME = "time-registries-sequence";
 
     @Id
     private String id;
@@ -22,13 +26,13 @@ public class TimeRegistry {
 
     //Audit fields
     private User createdByUser;
-    private LocalDateTime cretatedAtLocalDateTime;
+    private LocalDateTime createdAtLocalDateTime;
     private User lastModifiedByUser;
     private LocalDateTime lastModifiedLocalDateTime;
 
     public TimeRegistry(User createdByUser) {
         this.createdByUser = createdByUser;
-        this.cretatedAtLocalDateTime = LocalDateTime.now();
+        this.createdAtLocalDateTime = LocalDateTime.now();
     }
 
     public static Builder builder(User createdByUser) {
@@ -109,12 +113,12 @@ public class TimeRegistry {
         this.createdByUser = createdByUser;
     }
 
-    public LocalDateTime getCretatedAtLocalDateTime() {
-        return cretatedAtLocalDateTime;
+    public LocalDateTime getCreatedAtLocalDateTime() {
+        return createdAtLocalDateTime;
     }
 
-    public void setCretatedAtLocalDateTime(LocalDateTime cretatedAtLocalDateTime) {
-        this.cretatedAtLocalDateTime = cretatedAtLocalDateTime;
+    public void setCreatedAtLocalDateTime(LocalDateTime createdAtLocalDateTime) {
+        this.createdAtLocalDateTime = createdAtLocalDateTime;
     }
 
     public User getLastModifiedByUser() {
@@ -143,7 +147,7 @@ public class TimeRegistry {
                 ", minutesWorked=" + minutesWorked +
                 ", status=" + status +
                 ", createdByUser=" + createdByUser +
-                ", cretatedAtLocalDateTime=" + cretatedAtLocalDateTime +
+                ", cretatedAtLocalDateTime=" + createdAtLocalDateTime +
                 ", lastModifiedByUser=" + lastModifiedByUser +
                 ", lastModifiedLocalDateTime=" + lastModifiedLocalDateTime +
                 '}';

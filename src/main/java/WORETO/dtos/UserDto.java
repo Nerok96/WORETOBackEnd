@@ -1,22 +1,13 @@
-package WORETO.documents;
+package WORETO.dtos;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.index.Indexed;
+import WORETO.documents.Role;
+import WORETO.documents.User;
 
 import java.util.Arrays;
 
-@Document
-public class User {
+public class UserDto {
 
-    @Transient
-    public static final String SEQUENCE_NAME = "users_sequence";
-
-    @Id
     private String id;
-
-    @Indexed(unique = true)
     private String email;
     private String name;
     private String surname;
@@ -24,7 +15,17 @@ public class User {
     private String password;
     private Role[] roles;
 
-    public User(){}
+    public UserDto(){}
+
+    public UserDto(User user){
+        this.id = user.getId();
+        this.email = user.getEmail();
+        this.name = user.getName();
+        this.surname = user.getSurname();
+        this.enable = user.getEnable();
+        this.password = user.getPassword();
+        this.roles = user.getRoles();
+    }
 
     public String getId() {
         return id;
@@ -84,7 +85,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserDto{" +
                 "id='" + id + '\'' +
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
