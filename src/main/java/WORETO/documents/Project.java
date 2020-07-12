@@ -1,10 +1,14 @@
 package WORETO.documents;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 
 import java.util.Arrays;
 
 public class Project {
+
+    @Transient
+    public static final String SEQUENCE_NAME = "projects_sequence";
 
     @Id
     private String id;
