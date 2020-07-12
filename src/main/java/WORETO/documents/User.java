@@ -34,6 +34,10 @@ public class User {
         this.id = id;
     }
 
+    public void setIdFromLong(Long id) {
+        this.id = "" + id;
+    }
+
     public String getEmail() {
         return email;
     }

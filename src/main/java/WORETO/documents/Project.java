@@ -27,6 +27,11 @@ public class Project {
         this.id = id;
     }
 
+    public void setIdFromLong(Long id) {
+        this.id = "" + id;
+    }
+
+
     public String getClientId() {
         return ClientId;
     }

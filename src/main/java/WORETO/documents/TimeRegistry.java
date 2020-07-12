@@ -47,6 +47,10 @@ public class TimeRegistry {
         this.id = id;
     }
 
+    public void setIdFromLong(Long id) {
+        this.id = "" + id;
+    }
+
     public User getAssignedUser() {
         return assignedUser;
     }
