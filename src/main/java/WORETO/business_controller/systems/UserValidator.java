@@ -18,24 +18,17 @@ public class UserValidator {
     public UserValidator(UserReactRepository userReactRepository){
         this.userReactRepository = userReactRepository;
     }
-    public Mono<Boolean> validateUser(User user){
+
+    public Boolean validateUser(User user) {
         return validateUser(new UserDto(user));
     }
 
-    public Mono<Boolean> validateUser(UserDto userToValidate){
-        if(Objects.nonNull(userToValidate.getEmail()) &&
+    public Boolean validateUser(UserDto userToValidate) {
+        return Objects.nonNull(userToValidate.getEmail()) &&
                 Objects.nonNull(userToValidate.getName()) &&
                 Objects.nonNull(userToValidate.getSurname()) &&
                 Objects.nonNull(userToValidate.getEnable()) &&
                 Objects.nonNull(userToValidate.getPassword()) &&
-                Objects.nonNull(userToValidate.getRoles())){
-            return this.validateUser(userToValidate.getEmail());
-        }else{
-            return Mono.just(false);
-        }
-    }
-
-    private Mono<Boolean> validateUser(String email){
-        return this.userReactRepository.findByEmail(email).hasElement().map(aBoolean -> !aBoolean);
+                Objects.nonNull(userToValidate.getRoles());
     }
 }
