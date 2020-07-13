@@ -41,4 +41,20 @@ public class UserController {
             return null;
         }
     }
+
+    public Mono<UserDto> updateUser(UserDto userDto) {
+        Mono<User> user = this.userReactRepository.findByEmail(userDto.getEmail())
+                .switchIfEmpty(Mono.error(new RuntimeException("No user for user:" + userDto.getEmail())))
+                .map(user1 -> {
+                    user1.setEmail(userDto.getEmail());
+                    user1.setName(userDto.getName());
+                    user1.setSurname(userDto.getSurname());
+                    user1.setEnable(userDto.getEnable());
+                    user1.setPassword(userDto.getPassword());
+                    user1.setRoles(userDto.getRoles());
+                    return user1;
+                });
+        return Mono.when(user)
+                .then(this.userReactRepository.saveAll(user).next()).map(UserDto::new);
+    }
 }
