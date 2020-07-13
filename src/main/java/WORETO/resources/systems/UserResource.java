@@ -13,6 +13,8 @@ import javax.validation.Valid;
 public class UserResource {
 
     public static final String USERS = "/users";
+    public static final String DISABLE = "/disable";
+    public static final String USER_EMAIL = "/{email}";
 
     private UserController userController;
 
@@ -29,5 +31,10 @@ public class UserResource {
     @PutMapping()
     public Mono<UserDto> updateUser(@Valid @RequestBody UserDto userDto) {
         return this.userController.updateUser(userDto);
+    }
+
+    @PutMapping(value = DISABLE + USER_EMAIL)
+    public Mono<UserDto> disableUser(@PathVariable String email) {
+        return this.userController.disableUser(email);
     }
 }
