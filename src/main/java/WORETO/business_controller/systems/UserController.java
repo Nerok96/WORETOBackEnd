@@ -57,4 +57,15 @@ public class UserController {
         return Mono.when(user)
                 .then(this.userReactRepository.saveAll(user).next()).map(UserDto::new);
     }
+
+    public Mono<UserDto> disableUser(String email) {
+        Mono<User> user = this.userReactRepository.findByEmail(email)
+                .switchIfEmpty(Mono.error(new RuntimeException("No user for user:" + email)))
+                .map(user1 -> {
+                    user1.setEnable(false);
+                    return user1;
+                });
+        return Mono.when(user)
+                .then(this.userReactRepository.saveAll(user).next()).map(UserDto::new);
+    }
 }
