@@ -36,6 +36,6 @@ public class UserValidator {
     }
 
     private Mono<Boolean> validateUser(String email){
-        return this.userReactRepository.findByEmail(email).hasElement();
+        return this.userReactRepository.findByEmail(email).hasElement().map(aBoolean -> !aBoolean);
     }
 }
