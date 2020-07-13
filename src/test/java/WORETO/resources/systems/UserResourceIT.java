@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 
@@ -89,5 +90,49 @@ public class UserResourceIT {
                 .isOk()
                 .expectBody(UserDto.class)
                 .value(Assertions::assertNull);
+    }
+
+    @Test
+    void testUpdateUserNonExist() {
+        this.webTestClient
+                .put().uri(contextPath + USERS)
+                .body(BodyInserters.fromObject(
+                        new UserDto(User.builder()
+                                .email("email")
+                                .build())
+                )).exchange()
+                .expectStatus()
+                .is5xxServerError();
+    }
+
+    @Test
+    void testUpdateUser() {
+        String email = "partner@partner.com";
+        String name = "name";
+        String surname = "surname";
+        Boolean enable = true;
+        String password = "password";
+        Role role = Role.TIMERECORDER;
+        UserDto userDto = this.webTestClient
+                .put().uri(contextPath + USERS)
+                .body(BodyInserters.fromObject(
+                        new UserDto(User.builder()
+                                .email(email)
+                                .name(name)
+                                .surname(surname)
+                                .enable(enable)
+                                .password(password)
+                                .roles(role)
+                                .build())
+                )).exchange().expectStatus().isOk().expectBody(UserDto.class)
+                .value(Assertions::assertNotNull)
+                .returnResult().getResponseBody();
+        assertNotNull(userDto);
+        assertEquals(email, userDto.getEmail());
+        assertEquals(name, userDto.getName());
+        assertEquals(surname, userDto.getSurname());
+        assertEquals(enable, userDto.getEnable());
+        assertEquals(password, userDto.getPassword());
+        assertEquals(role, userDto.getRoles()[0]);
     }
 }
