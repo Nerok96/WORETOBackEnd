@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 
+import static WORETO.resources.systems.UserResource.DISABLE;
 import static WORETO.resources.systems.UserResource.USERS;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static WORETO.resources.systems.UserResource.USER_EMAIL;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ApiTestConfig
 public class UserResourceIT {
@@ -134,5 +134,20 @@ public class UserResourceIT {
         assertEquals(enable, userDto.getEnable());
         assertEquals(password, userDto.getPassword());
         assertEquals(role, userDto.getRoles()[0]);
+    }
+
+    @Test
+    void testDisableUser() {
+        String email = "partner@partner.com";
+        UserDto userDto = this.webTestClient
+                .put().uri(contextPath + USERS + DISABLE + USER_EMAIL, email)
+                .exchange().expectStatus()
+                .isOk()
+                .expectBody(UserDto.class)
+                .value(Assertions::assertNotNull)
+                .returnResult().getResponseBody();
+        assertNotNull(userDto);
+        assertEquals(email, userDto.getEmail());
+        assertFalse(userDto.getEnable());
     }
 }
