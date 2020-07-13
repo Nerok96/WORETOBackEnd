@@ -3,10 +3,7 @@ package WORETO.resources.systems;
 import WORETO.business_controller.systems.UserController;
 import WORETO.dtos.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
@@ -25,7 +22,12 @@ public class UserResource {
     }
 
     @PostMapping()
-    public Mono<UserDto> testGet(@Valid @RequestBody UserDto userDto) {
+    public Mono<UserDto> creatUser(@Valid @RequestBody UserDto userDto) {
         return this.userController.createUser(userDto);
+    }
+
+    @PutMapping()
+    public Mono<UserDto> updateUser(@Valid @RequestBody UserDto userDto) {
+        return this.userController.updateUser(userDto);
     }
 }
