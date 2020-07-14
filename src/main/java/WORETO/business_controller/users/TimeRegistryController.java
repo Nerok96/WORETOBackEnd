@@ -1,6 +1,6 @@
 package WORETO.business_controller.users;
 
-import WORETO.dtos.TimeRegistryDto;
+import WORETO.dtos.TimeRegistryReadDetailDto;
 import WORETO.repositories.TimeRegistryReactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,8 +16,8 @@ public class TimeRegistryController {
         this.timeRegistryReactRepository = timeRegistryReactRepository;
     }
 
-    public Mono<TimeRegistryDto> readTimeRegistryDetailById(String id){
-        return this.timeRegistryReactRepository.findById(id).map(TimeRegistryDto::new);
+    public Mono<TimeRegistryReadDetailDto> readTimeRegistryDetailById(String id) {
+        return this.timeRegistryReactRepository.findById(id).map(TimeRegistryReadDetailDto::new);
     }
 
 }

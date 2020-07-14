@@ -1,15 +1,13 @@
 package WORETO.dtos;
 
-import WORETO.documents.Project;
 import WORETO.documents.Status;
-import WORETO.documents.User;
 
 import java.time.LocalDateTime;
 
 public class TimeRegistryCommonDto {
 
-    private User assignedUser;
-    private Project assignedProject;
+    private String assignedUserEmail;
+    private String assignedProjectId;
     private LocalDateTime assignedLocalDateTime;
     private Integer minutesWorked;
     private Status status;
@@ -18,33 +16,33 @@ public class TimeRegistryCommonDto {
     public TimeRegistryCommonDto() {
     }
 
-    public TimeRegistryCommonDto(User assignedUser,
-                                 Project assignedProject,
+    public TimeRegistryCommonDto(String assignedUserEmail,
+                                 String assignedProjectId,
                                  LocalDateTime assignedLocalDateTime,
                                  Integer minutesWorked, Status status,
                                  String description) {
-        this.assignedUser = assignedUser;
-        this.assignedProject = assignedProject;
+        this.assignedUserEmail = assignedUserEmail;
+        this.assignedProjectId = assignedProjectId;
         this.assignedLocalDateTime = assignedLocalDateTime;
         this.minutesWorked = minutesWorked;
         this.status = status;
         this.description = description;
     }
 
-    public User getAssignedUser() {
-        return assignedUser;
+    public String getAssignedUserEmail() {
+        return assignedUserEmail;
     }
 
-    public void setAssignedUser(User assignedUser) {
-        this.assignedUser = assignedUser;
+    public void setAssignedUserEmail(String assignedUserEmail) {
+        this.assignedUserEmail = assignedUserEmail;
     }
 
-    public Project getAssignedProject() {
-        return assignedProject;
+    public String getAssignedProjectId() {
+        return assignedProjectId;
     }
 
-    public void setAssignedProject(Project assignedProject) {
-        this.assignedProject = assignedProject;
+    public void setAssignedProjectId(String assignedProjectId) {
+        this.assignedProjectId = assignedProjectId;
     }
 
     public LocalDateTime getAssignedLocalDateTime() {
@@ -81,8 +79,8 @@ public class TimeRegistryCommonDto {
 
     @Override
     public String toString() {
-        return ", assignedUser=" + assignedUser +
-                ", assignedProject=" + assignedProject +
+        return ", assignedUserEmail=" + assignedUserEmail +
+                ", assignedProjectProjectId=" + assignedProjectId +
                 ", assignedLocalDateTime=" + assignedLocalDateTime +
                 ", minutesWorked=" + minutesWorked +
                 ", status=" + status +

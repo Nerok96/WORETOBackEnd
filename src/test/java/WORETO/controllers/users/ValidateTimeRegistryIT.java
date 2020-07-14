@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestConfig
-public class ValidateTimeRegistryDraftStatusIT {
+public class ValidateTimeRegistryIT {
 
     private TimeRegistry timeRegistry;
 
@@ -31,6 +31,7 @@ public class ValidateTimeRegistryDraftStatusIT {
         User user = new User();
         user.setEmail("email");
         Project project = new Project();
+        project.setId("id");
         project.setClientId("clientID");
         project.setMatterId("MatterID");
         project.setProjectName("project name");
@@ -50,15 +51,30 @@ public class ValidateTimeRegistryDraftStatusIT {
     }
 
     @Test
-    void testValidateDraftStatus() {
-        TimeRegistry timeRegistry = this.timeRegistry;
-        timeRegistry.setStatus(Status.DRAFT);
-        assertTrue(validateTimeRegistryController.validateDraftStatus(timeRegistry));
+    void testValidateTimeRegistry() {
+        assertTrue(validateTimeRegistryController.validateTimeRegistry(this.timeRegistry));
+        this.timeRegistry.getAssignedUser().setEmail(null);
+        assertFalse(validateTimeRegistryController.validateTimeRegistry(this.timeRegistry));
     }
 
     @Test
-    void testValidateDraftStatusNoDraft() {
-        assertFalse(validateTimeRegistryController.validateDraftStatus(this.timeRegistry));
+    void testValidateTimeRegistryDto() {
+        assertTrue(validateTimeRegistryController.validateTimeRegistry(new TimeRegistryReadDetailDto(this.timeRegistry)));
+        this.timeRegistry.getAssignedUser().setEmail(null);
+        assertFalse(validateTimeRegistryController.validateTimeRegistry(new TimeRegistryReadDetailDto(this.timeRegistry)));
     }
 
+    @Test
+    void testValidateTimeRegistryCreationDto() {
+        assertTrue(validateTimeRegistryController.validateTimeRegistry(new TimeRegistryCreationDto(this.timeRegistry)));
+        this.timeRegistry.getAssignedUser().setEmail(null);
+        assertFalse(validateTimeRegistryController.validateTimeRegistry(new TimeRegistryCreationDto(this.timeRegistry)));
+    }
+
+    @Test
+    void testValidateTimeRegistryUpdateDto() {
+        assertTrue(validateTimeRegistryController.validateTimeRegistry(new TimeRegistryUpdateDto(this.timeRegistry)));
+        this.timeRegistry.getAssignedUser().setEmail(null);
+        assertFalse(validateTimeRegistryController.validateTimeRegistry(new TimeRegistryUpdateDto(this.timeRegistry)));
+    }
 }
