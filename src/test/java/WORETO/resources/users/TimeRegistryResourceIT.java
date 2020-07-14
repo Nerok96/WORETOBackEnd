@@ -132,4 +132,21 @@ public class TimeRegistryResourceIT {
                 timeRegistryReadDetailDtoAfterEdit.getMinutesWorked());
         assertEquals(assignedUserEmail, timeRegistryReadDetailDtoAfterEdit.getAssignedUserEmail());
     }
+
+    @Test
+    void testDeleteTimeRegistry() {
+        String timeRegistryId = "5";
+        this.webTestClient
+                .delete().uri(contextPath + TIME_REGISTRIES + TIME_REGISTRIES_ID, timeRegistryId)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(TimeRegistryReadDetailDto.class)
+                .value(Assertions::assertNull);
+        this.webTestClient
+                .get().uri(contextPath + TIME_REGISTRIES + TIME_REGISTRIES_ID, timeRegistryId)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(TimeRegistryReadDetailDto.class)
+                .value(Assertions::assertNull);
+    }
 }

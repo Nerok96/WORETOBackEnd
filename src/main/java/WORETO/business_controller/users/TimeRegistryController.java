@@ -136,13 +136,7 @@ public class TimeRegistryController {
                 );
     }
 
-    public Mono<TimeRegistryReadDetailDto> deleteTimeRegistry(String timeRegistryId) {
-        TimeRegistry timeRegistry = this.timeRegistryReactRepository.findById(timeRegistryId).block();
-        if (this.validateTimeRegistryController.validateDraftStatus(timeRegistry)) {
-            this.timeRegistryReactRepository.deleteById(timeRegistryId);
-            return readTimeRegistryDetailById(timeRegistryId);
-        } else {
-            return null;
-        }
+    public Mono<Void> deleteTimeRegistry(String id) {
+        return this.timeRegistryReactRepository.deleteById(id);
     }
 }
