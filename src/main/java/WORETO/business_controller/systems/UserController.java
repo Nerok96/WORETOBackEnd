@@ -25,22 +25,6 @@ public class UserController {
         this.userValidator = userValidator;
     }
 
-    public Mono<UserDto> createUser(UserDto userDto) {
-        User user = User.builder()
-                .id(sequenceGenerator.getNextSequence(User.SEQUENCE_NAME))
-                .email(userDto.getEmail())
-                .name(userDto.getName())
-                .surname(userDto.getSurname())
-                .enable(userDto.getEnable())
-                .password(userDto.getPassword())
-                .roles(userDto.getRoles())
-                .build();
-        if (this.userValidator.validateUser(user)) {
-            return this.userReactRepository.save(user).map(UserDto::new);
-        } else {
-            return null;
-        }
-    }
 
     public Mono<UserDto> updateUser(UserDto userDto) {
         Mono<User> user = this.userReactRepository.findByEmail(userDto.getEmail())
@@ -52,6 +36,17 @@ public class UserController {
                     user1.setEnable(userDto.getEnable());
                     user1.setPassword(userDto.getPassword());
                     user1.setRoles(userDto.getRoles());
+                    return user1;
+                });
+        return Mono.when(user)
+                .then(this.userReactRepository.saveAll(user).next()).map(UserDto::new);
+    }
+
+    public Mono<UserDto> disableUser(String email) {
+        Mono<User> user = this.userReactRepository.findByEmail(email)
+                .switchIfEmpty(Mono.error(new RuntimeException("No user for user:" + email)))
+                .map(user1 -> {
+                    user1.setEnable(false);
                     return user1;
                 });
         return Mono.when(user)
