@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -140,12 +141,13 @@ public class DatabaseSeedService {
 
     private void seedTimeRegistries(){
         LocalDateTime fixedLdt = LocalDateTime.of(2022, 4, 1, 1, 1, 1);
+        LocalDate fixedld = LocalDate.of(2022, 4, 1);
         TimeRegistry[] timeRegistriesArray = new TimeRegistry[]{
                 TimeRegistry.builder()
                         .id(sequenceGenerator.getNextSequence(TimeRegistry.SEQUENCE_NAME))
                         .assignedUser(this.usersArray.get(2))
                         .assignedProject(this.projectsArray.get(0))
-                        .assignedLocalDateTime(fixedLdt)
+                        .assignedLocalDate(fixedld)
                         .minutesWorked(10)
                         .status(Status.DRAFT)
                         .description("Working hard")
@@ -155,7 +157,7 @@ public class DatabaseSeedService {
                         .id(sequenceGenerator.getNextSequence(TimeRegistry.SEQUENCE_NAME))
                         .assignedUser(this.usersArray.get(3))
                         .assignedProject(this.projectsArray.get(0))
-                        .assignedLocalDateTime(fixedLdt)
+                        .assignedLocalDate(fixedld)
                         .minutesWorked(20)
                         .status(Status.READY)
                         .description("Working hard")
@@ -165,7 +167,7 @@ public class DatabaseSeedService {
                         .id(sequenceGenerator.getNextSequence(TimeRegistry.SEQUENCE_NAME))
                         .assignedUser(this.usersArray.get(3))
                         .assignedProject(this.projectsArray.get(1))
-                        .assignedLocalDateTime(fixedLdt)
+                        .assignedLocalDate(fixedld)
                         .minutesWorked(30)
                         .status(Status.TRANSFERRED)
                         .description("Working hard")
@@ -175,7 +177,7 @@ public class DatabaseSeedService {
                         .id(sequenceGenerator.getNextSequence(TimeRegistry.SEQUENCE_NAME))
                         .assignedUser(this.usersArray.get(1))
                         .assignedProject(this.projectsArray.get(1))
-                        .assignedLocalDateTime(fixedLdt)
+                        .assignedLocalDate(fixedld)
                         .minutesWorked(40)
                         .status(Status.BILLED)
                         .description("Working hard")
@@ -185,9 +187,42 @@ public class DatabaseSeedService {
                         .id(sequenceGenerator.getNextSequence(TimeRegistry.SEQUENCE_NAME))
                         .assignedUser(this.usersArray.get(2))
                         .assignedProject(this.projectsArray.get(0))
-                        .assignedLocalDateTime(fixedLdt)
+                        .assignedLocalDate(fixedld)
                         .minutesWorked(50)
                         .status(Status.DRAFT)
+                        .description("Working hard")
+                        .createdByUser(this.usersArray.get(2))
+                        .build()
+                ,
+                TimeRegistry.builder()
+                        .id(sequenceGenerator.getNextSequence(TimeRegistry.SEQUENCE_NAME))
+                        .assignedUser(this.usersArray.get(2))
+                        .assignedProject(this.projectsArray.get(0))
+                        .assignedLocalDate(fixedld.plusYears(1)) //2023
+                        .minutesWorked(50)
+                        .status(Status.DRAFT)
+                        .description("Working hard")
+                        .createdByUser(this.usersArray.get(2))
+                        .build()
+                ,
+                TimeRegistry.builder()
+                        .id(sequenceGenerator.getNextSequence(TimeRegistry.SEQUENCE_NAME))
+                        .assignedUser(this.usersArray.get(0))
+                        .assignedProject(this.projectsArray.get(0))
+                        .assignedLocalDate(LocalDate.of(2023, 1, 1))
+                        .minutesWorked(50)
+                        .status(Status.DRAFT)
+                        .description("Working hard")
+                        .createdByUser(this.usersArray.get(2))
+                        .build()
+                ,
+                TimeRegistry.builder()
+                        .id(sequenceGenerator.getNextSequence(TimeRegistry.SEQUENCE_NAME))
+                        .assignedUser(this.usersArray.get(2))
+                        .assignedProject(this.projectsArray.get(0))
+                        .assignedLocalDate(LocalDate.of(2023, 1, 1))
+                        .minutesWorked(50)
+                        .status(Status.READY)
                         .description("Working hard")
                         .createdByUser(this.usersArray.get(2))
                         .build()

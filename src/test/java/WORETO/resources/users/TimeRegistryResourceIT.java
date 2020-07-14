@@ -43,7 +43,7 @@ public class TimeRegistryResourceIT {
         assertEquals(id, timeRegistryReadDetailDto.getId());
         assertEquals("timerecorderA@timerecorderA.com", timeRegistryReadDetailDto.getAssignedUserEmail());
         assertEquals("Project ONE 1", timeRegistryReadDetailDto.getAssignedProjectProjectName());
-        assertEquals(fixedLdt, timeRegistryReadDetailDto.getAssignedLocalDateTime());
+        assertEquals(fixedLdt.toLocalDate(), timeRegistryReadDetailDto.getAssignedLocalDate());
         assertEquals(Integer.valueOf(10), timeRegistryReadDetailDto.getMinutesWorked());
         assertEquals(Status.DRAFT, timeRegistryReadDetailDto.getStatus());
         assertEquals("Working hard", timeRegistryReadDetailDto.getDescription());
@@ -63,7 +63,7 @@ public class TimeRegistryResourceIT {
         TimeRegistryCreationDto timeRegistryCreationDto = new TimeRegistryCreationDto();
         timeRegistryCreationDto.setAssignedUserEmail(email);
         timeRegistryCreationDto.setAssignedProjectId(projectId);
-        timeRegistryCreationDto.setAssignedLocalDateTime(ldt);
+        timeRegistryCreationDto.setAssignedLocalDate(ldt.toLocalDate());
         timeRegistryCreationDto.setMinutesWorked(minutesWorked);
         timeRegistryCreationDto.setStatus(Status.DRAFT);
         timeRegistryCreationDto.setDescription(description);
@@ -79,7 +79,7 @@ public class TimeRegistryResourceIT {
         assertNotNull(timeRegistryReadDetailDto);
         assertEquals(email, timeRegistryReadDetailDto.getAssignedUserEmail());
         assertEquals(projectId, timeRegistryReadDetailDto.getAssignedProjectId());
-        assertEquals(ldt, timeRegistryReadDetailDto.getAssignedLocalDateTime());
+        assertEquals(ldt.toLocalDate(), timeRegistryReadDetailDto.getAssignedLocalDate());
         assertEquals(minutesWorked, timeRegistryReadDetailDto.getMinutesWorked());
         assertEquals(Status.DRAFT, timeRegistryReadDetailDto.getStatus());
         assertEquals(email, timeRegistryReadDetailDto.getCreatedByUserEmail());
@@ -101,7 +101,7 @@ public class TimeRegistryResourceIT {
         timeRegistryUpdateDto.setId(timeRegistryId);
         timeRegistryUpdateDto.setAssignedUserEmail(assignedUserEmail);
         timeRegistryUpdateDto.setAssignedProjectId(assignedProject);
-        timeRegistryUpdateDto.setAssignedLocalDateTime(assignedLocalDateTime);
+        timeRegistryUpdateDto.setAssignedLocalDate(assignedLocalDateTime.toLocalDate());
         timeRegistryUpdateDto.setMinutesWorked(minutesWorked);
         timeRegistryUpdateDto.setStatus(status);
         timeRegistryUpdateDto.setDescription(description);

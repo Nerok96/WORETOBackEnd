@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
@@ -20,7 +21,7 @@ public class TimeRegistry {
     private User assignedUser;
     @DBRef
     private Project assignedProject;
-    private LocalDateTime assignedLocalDateTime;
+    private LocalDate assignedLocalDate;
     private Integer minutesWorked;
     private Status status;
     private String description;
@@ -72,12 +73,12 @@ public class TimeRegistry {
         this.assignedProject = assignedProject;
     }
 
-    public LocalDateTime getAssignedLocalDateTime() {
-        return assignedLocalDateTime;
+    public LocalDate getAssignedLocalDate() {
+        return assignedLocalDate;
     }
 
-    public void setAssignedLocalDateTime(LocalDateTime assignedLocalDateTime) {
-        this.assignedLocalDateTime = assignedLocalDateTime;
+    public void setAssignedLocalDate(LocalDate assignedLocalDate) {
+        this.assignedLocalDate = assignedLocalDate;
     }
 
     public Integer getMinutesWorked() {
@@ -160,7 +161,7 @@ public class TimeRegistry {
                 "id='" + id + '\'' +
                 ", assignedUser=" + assignedUser +
                 ", assignedProject=" + assignedProject +
-                ", assignedLocalDateTime=" + assignedLocalDateTime +
+                ", assignedLocalDate=" + assignedLocalDate +
                 ", minutesWorked=" + minutesWorked +
                 ", status=" + status +
                 ", description='" + description + '\'' +
@@ -199,8 +200,8 @@ public class TimeRegistry {
             return this;
         }
 
-        public Builder assignedLocalDateTime (LocalDateTime assignedLocalDateTime){
-            this.timeRegistry.assignedLocalDateTime = assignedLocalDateTime;
+        public Builder assignedLocalDate(LocalDate assignedLocalDate) {
+            this.timeRegistry.assignedLocalDate = assignedLocalDate;
             return this;
         }
 

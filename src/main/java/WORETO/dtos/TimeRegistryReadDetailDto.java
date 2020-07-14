@@ -22,7 +22,7 @@ public class TimeRegistryReadDetailDto extends TimeRegistryCommonDto {
     public TimeRegistryReadDetailDto(TimeRegistry timeRegistry) {
         super(timeRegistry.getAssignedUser().getEmail(),
                 timeRegistry.getAssignedProject().getId(),
-                timeRegistry.getAssignedLocalDateTime(),
+                timeRegistry.getAssignedLocalDate(),
                 timeRegistry.getMinutesWorked(),
                 timeRegistry.getStatus(),
                 timeRegistry.getDescription());
