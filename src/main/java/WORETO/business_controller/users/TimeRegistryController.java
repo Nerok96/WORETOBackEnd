@@ -8,7 +8,6 @@ import WORETO.dtos.TimeRegistryReadDetailDto;
 import WORETO.repositories.ProjectReactrepository;
 import WORETO.repositories.TimeRegistryReactRepository;
 import WORETO.repositories.UserReactRepository;
-import WORETO.repositories.UserRepository;
 import WORETO.services.SequenceGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,16 +20,19 @@ public class TimeRegistryController {
     private UserReactRepository userReactRepository;
     private ProjectReactrepository projectReactrepository;
     private SequenceGenerator sequenceGenerator;
+    private ValidateTimeRegistryController validateTimeRegistryController;
 
     @Autowired
     public TimeRegistryController(TimeRegistryReactRepository timeRegistryReactRepository,
                                   UserReactRepository userReactRepository,
                                   ProjectReactrepository projectReactrepository,
-                                  SequenceGenerator sequenceGenerator) {
+                                  SequenceGenerator sequenceGenerator,
+                                  ValidateTimeRegistryController validateTimeRegistryController) {
         this.timeRegistryReactRepository = timeRegistryReactRepository;
         this.userReactRepository = userReactRepository;
         this.projectReactrepository = projectReactrepository;
         this.sequenceGenerator = sequenceGenerator;
+        this.validateTimeRegistryController = validateTimeRegistryController;
     }
 
     public Mono<TimeRegistryReadDetailDto> readTimeRegistryDetailById(String id) {
@@ -38,20 +40,24 @@ public class TimeRegistryController {
     }
 
     public Mono<TimeRegistryReadDetailDto> createTimeRegistry(TimeRegistryCreationDto timeRegistryCreationDto) {
-        TimeRegistry timeRegistry = TimeRegistry.builder()
-                .id(sequenceGenerator.getNextSequence(TimeRegistry.SEQUENCE_NAME))
-                .assignedLocalDateTime(timeRegistryCreationDto.getAssignedLocalDateTime())
-                .minutesWorked(timeRegistryCreationDto.getMinutesWorked())
-                .status(timeRegistryCreationDto.getStatus())
-                .description(timeRegistryCreationDto.getDescription())
-                .build();
-        Mono<User> assignedUserMono = this.userReactRepository.findByEmail(timeRegistryCreationDto.getAssignedUserEmail())
-                .doOnNext(timeRegistry::setAssignedUser);
-        Mono<User> createdByUserMono = this.userReactRepository.findByEmail(timeRegistryCreationDto.getAssignedUserEmail())
-                .doOnNext(timeRegistry::setCreatedByUser);
-        Mono<Project> projectMono = this.projectReactrepository.findById(timeRegistryCreationDto.getAssignedProjectId())
-                .doOnNext(timeRegistry::setAssignedProject);
-        return Mono.when(assignedUserMono, createdByUserMono, projectMono)
-                .then(this.timeRegistryReactRepository.save(timeRegistry).map(TimeRegistryReadDetailDto::new));
+        if (validateTimeRegistryController.validateTimeRegistry(timeRegistryCreationDto)) {
+            TimeRegistry timeRegistry = TimeRegistry.builder()
+                    .id(sequenceGenerator.getNextSequence(TimeRegistry.SEQUENCE_NAME))
+                    .assignedLocalDateTime(timeRegistryCreationDto.getAssignedLocalDateTime())
+                    .minutesWorked(timeRegistryCreationDto.getMinutesWorked())
+                    .status(timeRegistryCreationDto.getStatus())
+                    .description(timeRegistryCreationDto.getDescription())
+                    .build();
+            Mono<User> assignedUserMono = this.userReactRepository.findByEmail(timeRegistryCreationDto.getAssignedUserEmail())
+                    .doOnNext(timeRegistry::setAssignedUser);
+            Mono<User> createdByUserMono = this.userReactRepository.findByEmail(timeRegistryCreationDto.getAssignedUserEmail())
+                    .doOnNext(timeRegistry::setCreatedByUser);
+            Mono<Project> projectMono = this.projectReactrepository.findById(timeRegistryCreationDto.getAssignedProjectId())
+                    .doOnNext(timeRegistry::setAssignedProject);
+            return Mono.when(assignedUserMono, createdByUserMono, projectMono)
+                    .then(this.timeRegistryReactRepository.save(timeRegistry).map(TimeRegistryReadDetailDto::new));
+        } else {
+            return null;
+        }
     }
 }
