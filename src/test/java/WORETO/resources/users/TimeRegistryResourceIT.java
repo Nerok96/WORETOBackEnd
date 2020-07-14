@@ -1,6 +1,7 @@
 package WORETO.resources.users;
 
 import WORETO.documents.Status;
+import WORETO.dtos.TimeRegistryCreationDto;
 import WORETO.dtos.TimeRegistryReadDetailDto;
 import WORETO.resources.ApiTestConfig;
 import org.junit.jupiter.api.Assertions;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.reactive.function.BodyInserters;
 
 import java.time.LocalDateTime;
 
@@ -50,4 +52,36 @@ public class TimeRegistryResourceIT {
         assertNull(timeRegistryReadDetailDto.getLastModifiedLocalDateTime());
     }
 
+    @Test
+    void createTimeRegistry() {
+        LocalDateTime ldt = LocalDateTime.now();
+        String email = "admin@admin.com";
+        Integer minutesWorked = 10;
+        String projectId = "1";
+        String description = "Working hard";
+        TimeRegistryCreationDto timeRegistryCreationDto = new TimeRegistryCreationDto();
+        timeRegistryCreationDto.setAssignedUserEmail(email);
+        timeRegistryCreationDto.setAssignedProjectId(projectId);
+        timeRegistryCreationDto.setAssignedLocalDateTime(ldt);
+        timeRegistryCreationDto.setMinutesWorked(minutesWorked);
+        timeRegistryCreationDto.setStatus(Status.DRAFT);
+        timeRegistryCreationDto.setDescription(description);
+        timeRegistryCreationDto.setCreatedByUserEmail(email);
+        TimeRegistryReadDetailDto timeRegistryReadDetailDto = this.webTestClient
+                .post().uri(contextPath + TIME_REGISTRIES)
+                .body(BodyInserters.fromObject(timeRegistryCreationDto))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(TimeRegistryReadDetailDto.class)
+                .value(Assertions::assertNotNull)
+                .returnResult().getResponseBody();
+        assertNotNull(timeRegistryReadDetailDto);
+        assertEquals(email, timeRegistryReadDetailDto.getAssignedUserEmail());
+        assertEquals(projectId, timeRegistryReadDetailDto.getAssignedProjectId());
+        assertEquals(ldt, timeRegistryReadDetailDto.getAssignedLocalDateTime());
+        assertEquals(minutesWorked, timeRegistryReadDetailDto.getMinutesWorked());
+        assertEquals(Status.DRAFT, timeRegistryReadDetailDto.getStatus());
+        assertEquals(email, timeRegistryReadDetailDto.getCreatedByUserEmail());
+        assertEquals(description, timeRegistryReadDetailDto.getDescription());
+    }
 }
