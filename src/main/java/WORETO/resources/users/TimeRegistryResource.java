@@ -40,4 +40,9 @@ public class TimeRegistryResource {
             @Valid @RequestBody TimeRegistryUpdateDto timeRegistryUpdateDto) {
         return this.timeRegistryController.updateTimeRegistry(timeRegistryUpdateDto);
     }
+
+    @DeleteMapping(value = TIME_REGISTRIES_ID)
+    public Mono<Void> deleteTimeRegistry(@PathVariable String id) {
+        return this.timeRegistryController.deleteTimeRegistry(id);
+    }
 }

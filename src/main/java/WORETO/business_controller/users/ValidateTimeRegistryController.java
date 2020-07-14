@@ -14,7 +14,7 @@ import java.util.Objects;
 public class ValidateTimeRegistryController {
 
     public Boolean validateDraftStatus(TimeRegistry timeRegistry) {
-        return validateDraftStatus(new TimeRegistryUpdateDto(timeRegistry));
+        return timeRegistry.getStatus().roleName().equals(Status.DRAFT.roleName());
     }
 
     public Boolean validateDraftStatus(TimeRegistryUpdateDto timeRegistryUpdateDto) {
