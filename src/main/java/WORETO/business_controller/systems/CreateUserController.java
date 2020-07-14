@@ -13,15 +13,15 @@ public class CreateUserController {
 
     private UserReactRepository userReactRepository;
     private SequenceGenerator sequenceGenerator;
-    private UserValidator userValidator;
+    private ValidateUserController validateUserController;
 
     @Autowired
     public CreateUserController(UserReactRepository userReactRepository,
                                 SequenceGenerator sequenceGenerator,
-                                UserValidator userValidator) {
+                                ValidateUserController validateUserController) {
         this.userReactRepository = userReactRepository;
         this.sequenceGenerator = sequenceGenerator;
-        this.userValidator = userValidator;
+        this.validateUserController = validateUserController;
     }
 
     public Mono<UserDto> createUser(UserDto userDto) {
@@ -34,7 +34,7 @@ public class CreateUserController {
                 .password(userDto.getPassword())
                 .roles(userDto.getRoles())
                 .build();
-        if (this.userValidator.validateUser(user)) {
+        if (this.validateUserController.validateUser(user)) {
             return this.userReactRepository.save(user).map(UserDto::new);
         } else {
             return null;

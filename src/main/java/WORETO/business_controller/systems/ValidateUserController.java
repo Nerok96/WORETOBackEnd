@@ -10,12 +10,12 @@ import reactor.core.publisher.Mono;
 import java.util.Objects;
 
 @Controller
-public class UserValidator {
+public class ValidateUserController {
 
     private UserReactRepository userReactRepository;
 
     @Autowired
-    public UserValidator(UserReactRepository userReactRepository){
+    public ValidateUserController(UserReactRepository userReactRepository) {
         this.userReactRepository = userReactRepository;
     }
 
