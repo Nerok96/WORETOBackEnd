@@ -9,8 +9,8 @@ import reactor.core.publisher.Mono;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(UserResource.USERS)
-public class UserResource {
+@RequestMapping(ActiveDirectoryResource.USERS)
+public class ActiveDirectoryResource {
 
     public static final String USERS = "/users";
     public static final String DISABLE = "/disable";
@@ -19,7 +19,7 @@ public class UserResource {
     private UserController userController;
 
     @Autowired
-    public UserResource(UserController userController) {
+    public ActiveDirectoryResource(UserController userController) {
         this.userController = userController;
     }
 

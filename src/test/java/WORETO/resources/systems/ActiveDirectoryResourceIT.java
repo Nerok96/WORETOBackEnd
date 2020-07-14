@@ -11,13 +11,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 
-import static WORETO.resources.systems.UserResource.DISABLE;
-import static WORETO.resources.systems.UserResource.USERS;
-import static WORETO.resources.systems.UserResource.USER_EMAIL;
+import static WORETO.resources.systems.ActiveDirectoryResource.DISABLE;
+import static WORETO.resources.systems.ActiveDirectoryResource.USERS;
+import static WORETO.resources.systems.ActiveDirectoryResource.USER_EMAIL;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ApiTestConfig
-public class UserResourceIT {
+public class ActiveDirectoryResourceIT {
 
     @Value("${server.servlet.contextPath}")
     private String contextPath;
