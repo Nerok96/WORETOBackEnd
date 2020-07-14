@@ -1,8 +1,8 @@
 package WORETO.resources.systems;
 
 import WORETO.business_controller.systems.CreateUserController;
+import WORETO.business_controller.systems.DisableUserController;
 import WORETO.business_controller.systems.UpdateUserController;
-import WORETO.business_controller.systems.UserController;
 import WORETO.dtos.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,21 +18,21 @@ public class ActiveDirectoryResource {
     public static final String DISABLE = "/disable";
     public static final String USER_EMAIL = "/{email}";
 
-    private UserController userController;
     private CreateUserController createUserController;
     private UpdateUserController updateUserController;
+    private DisableUserController disableUserController;
 
     @Autowired
-    public ActiveDirectoryResource(UserController userController,
-                                   CreateUserController createUser,
-                                   UpdateUserController updateUserController) {
-        this.userController = userController;
+    public ActiveDirectoryResource(CreateUserController createUser,
+                                   UpdateUserController updateUserController,
+                                   DisableUserController disableUserController) {
         this.createUserController = createUser;
         this.updateUserController = updateUserController;
+        this.disableUserController = disableUserController;
     }
 
     @PostMapping()
-    public Mono<UserDto> creatUser(@Valid @RequestBody UserDto userDto) {
+    public Mono<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
         return this.createUserController.createUser(userDto);
     }
 
@@ -43,6 +43,6 @@ public class ActiveDirectoryResource {
 
     @PutMapping(value = DISABLE + USER_EMAIL)
     public Mono<UserDto> disableUser(@PathVariable String email) {
-        return this.userController.disableUser(email);
+        return this.disableUserController.disableUser(email);
     }
 }
