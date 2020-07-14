@@ -11,9 +11,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 
+import static WORETO.resources.systems.UserResource.DISABLE;
 import static WORETO.resources.systems.UserResource.USERS;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static WORETO.resources.systems.UserResource.USER_EMAIL;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ApiTestConfig
 public class UserResourceIT {
@@ -89,5 +90,64 @@ public class UserResourceIT {
                 .isOk()
                 .expectBody(UserDto.class)
                 .value(Assertions::assertNull);
+    }
+
+    @Test
+    void testUpdateUserNonExist() {
+        this.webTestClient
+                .put().uri(contextPath + USERS)
+                .body(BodyInserters.fromObject(
+                        new UserDto(User.builder()
+                                .email("email")
+                                .build())
+                )).exchange()
+                .expectStatus()
+                .is5xxServerError();
+    }
+
+    @Test
+    void testUpdateUser() {
+        String email = "partner@partner.com";
+        String name = "name";
+        String surname = "surname";
+        Boolean enable = true;
+        String password = "password";
+        Role role = Role.TIMERECORDER;
+        UserDto userDto = this.webTestClient
+                .put().uri(contextPath + USERS)
+                .body(BodyInserters.fromObject(
+                        new UserDto(User.builder()
+                                .email(email)
+                                .name(name)
+                                .surname(surname)
+                                .enable(enable)
+                                .password(password)
+                                .roles(role)
+                                .build())
+                )).exchange().expectStatus().isOk().expectBody(UserDto.class)
+                .value(Assertions::assertNotNull)
+                .returnResult().getResponseBody();
+        assertNotNull(userDto);
+        assertEquals(email, userDto.getEmail());
+        assertEquals(name, userDto.getName());
+        assertEquals(surname, userDto.getSurname());
+        assertEquals(enable, userDto.getEnable());
+        assertEquals(password, userDto.getPassword());
+        assertEquals(role, userDto.getRoles()[0]);
+    }
+
+    @Test
+    void testDisableUser() {
+        String email = "partner@partner.com";
+        UserDto userDto = this.webTestClient
+                .put().uri(contextPath + USERS + DISABLE + USER_EMAIL, email)
+                .exchange().expectStatus()
+                .isOk()
+                .expectBody(UserDto.class)
+                .value(Assertions::assertNotNull)
+                .returnResult().getResponseBody();
+        assertNotNull(userDto);
+        assertEquals(email, userDto.getEmail());
+        assertFalse(userDto.getEnable());
     }
 }
