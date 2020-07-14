@@ -1,7 +1,6 @@
 package WORETO.dtos;
 
 import WORETO.documents.TimeRegistry;
-import WORETO.documents.User;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
