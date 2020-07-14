@@ -25,22 +25,6 @@ public class UserController {
         this.userValidator = userValidator;
     }
 
-    public Mono<UserDto> createUser(UserDto userDto) {
-        User user = User.builder()
-                .id(sequenceGenerator.getNextSequence(User.SEQUENCE_NAME))
-                .email(userDto.getEmail())
-                .name(userDto.getName())
-                .surname(userDto.getSurname())
-                .enable(userDto.getEnable())
-                .password(userDto.getPassword())
-                .roles(userDto.getRoles())
-                .build();
-        if (this.userValidator.validateUser(user)) {
-            return this.userReactRepository.save(user).map(UserDto::new);
-        } else {
-            return null;
-        }
-    }
 
     public Mono<UserDto> updateUser(UserDto userDto) {
         Mono<User> user = this.userReactRepository.findByEmail(userDto.getEmail())
