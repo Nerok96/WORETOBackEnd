@@ -1,10 +1,13 @@
 package WORETO.dtos;
 
+import WORETO.documents.TimeRegistry;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class TimeRegistryMinimumDto {
 
-    private LocalDateTime assignedLocalDateTime;
+    private LocalDate assignedLocalDate;
     private String clientId;
     private String matterId;
     private String description;
@@ -13,22 +16,30 @@ public class TimeRegistryMinimumDto {
     public TimeRegistryMinimumDto() {
     }
 
-    public TimeRegistryMinimumDto(LocalDateTime assignedLocalDateTime,
+    public TimeRegistryMinimumDto(LocalDate assignedLocalDate,
                                   String clientId, String matterId,
                                   String description, String minutesWorked) {
-        this.assignedLocalDateTime = assignedLocalDateTime;
+        this.assignedLocalDate = assignedLocalDate;
         this.clientId = clientId;
         this.matterId = matterId;
         this.description = description;
         this.minutesWorked = minutesWorked;
     }
 
-    public LocalDateTime getAssignedLocalDateTime() {
-        return assignedLocalDateTime;
+    public TimeRegistryMinimumDto(TimeRegistry timeRegistry) {
+        this.assignedLocalDate = timeRegistry.getAssignedLocalDate();
+        this.clientId = timeRegistry.getAssignedProject().getClientId();
+        this.matterId = timeRegistry.getAssignedProject().getMatterId();
+        this.description = timeRegistry.getDescription();
+        this.minutesWorked = "" + timeRegistry.getMinutesWorked();
     }
 
-    public void setAssignedLocalDateTime(LocalDateTime assignedLocalDateTime) {
-        this.assignedLocalDateTime = assignedLocalDateTime;
+    public LocalDate getAssignedLocalDate() {
+        return assignedLocalDate;
+    }
+
+    public void setAssignedLocalDate(LocalDate assignedLocalDate) {
+        this.assignedLocalDate = assignedLocalDate;
     }
 
     public String getClientId() {
@@ -66,7 +77,7 @@ public class TimeRegistryMinimumDto {
     @Override
     public String toString() {
         return "TimeRegistryMinimumDto{" +
-                "assignedLocalDateTime=" + assignedLocalDateTime +
+                "assignedLocalDate=" + assignedLocalDate +
                 ", clientId='" + clientId + '\'' +
                 ", matterId='" + matterId + '\'' +
                 ", description='" + description + '\'' +

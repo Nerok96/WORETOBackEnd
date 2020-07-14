@@ -31,7 +31,7 @@ public class ValidateTimeRegistryController {
                         new TimeRegistryCommonDto(
                                 timeRegistry.getAssignedUser().getEmail(),
                                 timeRegistry.getAssignedProject().getId(),
-                                timeRegistry.getAssignedLocalDateTime(),
+                                timeRegistry.getAssignedLocalDate(),
                                 timeRegistry.getMinutesWorked(),
                                 timeRegistry.getStatus(),
                                 timeRegistry.getDescription()
@@ -49,7 +49,7 @@ public class ValidateTimeRegistryController {
                         new TimeRegistryCommonDto(
                                 timeRegistryReadDetailDto.getAssignedUserEmail(),
                                 timeRegistryReadDetailDto.getAssignedProjectId(),
-                                timeRegistryReadDetailDto.getAssignedLocalDateTime(),
+                                timeRegistryReadDetailDto.getAssignedLocalDate(),
                                 timeRegistryReadDetailDto.getMinutesWorked(),
                                 timeRegistryReadDetailDto.getStatus(),
                                 timeRegistryReadDetailDto.getDescription()
@@ -63,7 +63,7 @@ public class ValidateTimeRegistryController {
                         new TimeRegistryCommonDto(
                                 timeRegistryCreationDto.getAssignedUserEmail(),
                                 timeRegistryCreationDto.getAssignedProjectId(),
-                                timeRegistryCreationDto.getAssignedLocalDateTime(),
+                                timeRegistryCreationDto.getAssignedLocalDate(),
                                 timeRegistryCreationDto.getMinutesWorked(),
                                 timeRegistryCreationDto.getStatus(),
                                 timeRegistryCreationDto.getDescription()
@@ -77,7 +77,7 @@ public class ValidateTimeRegistryController {
                         new TimeRegistryCommonDto(
                                 timeRegistryUpdateDto.getAssignedUserEmail(),
                                 timeRegistryUpdateDto.getAssignedProjectId(),
-                                timeRegistryUpdateDto.getAssignedLocalDateTime(),
+                                timeRegistryUpdateDto.getAssignedLocalDate(),
                                 timeRegistryUpdateDto.getMinutesWorked(),
                                 timeRegistryUpdateDto.getStatus(),
                                 timeRegistryUpdateDto.getDescription()
@@ -87,7 +87,7 @@ public class ValidateTimeRegistryController {
     private Boolean validateTimeRegistryCommonFields(TimeRegistryCommonDto timeRegistryCommonDto) {
         return Objects.nonNull(timeRegistryCommonDto.getAssignedUserEmail()) &&
                 Objects.nonNull(timeRegistryCommonDto.getAssignedProjectId()) &&
-                Objects.nonNull(timeRegistryCommonDto.getAssignedLocalDateTime()) &&
+                Objects.nonNull(timeRegistryCommonDto.getAssignedLocalDate()) &&
                 Objects.nonNull(timeRegistryCommonDto.getMinutesWorked()) &&
                 Objects.nonNull(timeRegistryCommonDto.getStatus()) &&
                 Objects.nonNull(timeRegistryCommonDto.getDescription());

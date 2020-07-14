@@ -39,7 +39,7 @@ public class ValidateTimeRegistryDraftStatusIT {
                 .id("id")
                 .assignedUser(user)
                 .assignedProject(project)
-                .assignedLocalDateTime(ldt)
+                .assignedLocalDate(ldt.toLocalDate())
                 .minutesWorked(10)
                 .status(Status.READY)
                 .description("description")

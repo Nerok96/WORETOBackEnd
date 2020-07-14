@@ -29,7 +29,7 @@ public class TimeRegistryTest {
         timeRegistry.setId(id);
         timeRegistry.setAssignedUser(assignedUser);
         timeRegistry.setAssignedProject(project);
-        timeRegistry.setAssignedLocalDateTime(ldtAssigned);
+        timeRegistry.setAssignedLocalDate(ldtAssigned.toLocalDate());
         timeRegistry.setMinutesWorked(minutesWorked);
         timeRegistry.setStatus(status);
         timeRegistry.setDescription(description);
@@ -41,7 +41,7 @@ public class TimeRegistryTest {
                 .id(id)
                 .assignedUser(assignedUser)
                 .assignedProject(project)
-                .assignedLocalDateTime(ldtAssigned)
+                .assignedLocalDate(ldtAssigned.toLocalDate())
                 .minutesWorked(minutesWorked)
                 .status(status)
                 .description(description)
@@ -54,7 +54,7 @@ public class TimeRegistryTest {
         assertEquals(timeRegistry.getAssignedUser().getEmail(),timeRegistryBuilder.getAssignedUser().getEmail());
         assertEquals(timeRegistry.getAssignedProject().getProjectName(),
                 timeRegistryBuilder.getAssignedProject().getProjectName());
-        assertEquals(timeRegistry.getAssignedLocalDateTime(),timeRegistryBuilder.getAssignedLocalDateTime());
+        assertEquals(timeRegistry.getAssignedLocalDate(), timeRegistryBuilder.getAssignedLocalDate());
         assertEquals(timeRegistry.getMinutesWorked(),timeRegistryBuilder.getMinutesWorked());
         assertEquals(timeRegistry.getStatus(),timeRegistryBuilder.getStatus());
         assertEquals(timeRegistry.getDescription(),timeRegistryBuilder.getDescription());
