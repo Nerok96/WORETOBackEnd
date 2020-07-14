@@ -18,7 +18,7 @@ public class ValidateTimeRegistryController {
     }
 
     public Boolean validateDraftStatus(TimeRegistryUpdateDto timeRegistryUpdateDto) {
-        return timeRegistryUpdateDto.getStatus() == Status.DRAFT;
+        return timeRegistryUpdateDto.getStatus().roleName().equals(Status.DRAFT.roleName());
     }
 
     public Boolean validateTimeRegistry(TimeRegistry timeRegistry) {

@@ -180,6 +180,16 @@ public class DatabaseSeedService {
                         .status(Status.BILLED)
                         .description("Working hard")
                         .createdByUser(this.usersArray.get(1))
+                        .build(),
+                TimeRegistry.builder()
+                        .id(sequenceGenerator.getNextSequence(TimeRegistry.SEQUENCE_NAME))
+                        .assignedUser(this.usersArray.get(2))
+                        .assignedProject(this.projectsArray.get(0))
+                        .assignedLocalDateTime(fixedLdt)
+                        .minutesWorked(50)
+                        .status(Status.DRAFT)
+                        .description("Working hard")
+                        .createdByUser(this.usersArray.get(2))
                         .build()
         };
         this.timeRegistryRepository.saveAll(Arrays.asList(timeRegistriesArray));

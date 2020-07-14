@@ -90,7 +90,30 @@ public class TimeRegistryController {
                             then(this.timeRegistryReactRepository
                                     .findById(timeRegistryUpdateDto.getId())
                                     .map(timeRegistry -> {
-                                        timeRegistry = timeRegistryFromUpdateDto;
+                                        timeRegistry.setAssignedLocalDateTime(
+                                                timeRegistryFromUpdateDto.getAssignedLocalDateTime()
+                                        );
+                                        timeRegistry.setMinutesWorked(
+                                                timeRegistryFromUpdateDto.getMinutesWorked()
+                                        );
+                                        timeRegistry.setStatus(
+                                                timeRegistryFromUpdateDto.getStatus()
+                                        );
+                                        timeRegistry.setDescription(
+                                                timeRegistryFromUpdateDto.getDescription()
+                                        );
+                                        timeRegistry.setLastModifiedLocalDateTime(
+                                                timeRegistryFromUpdateDto.getLastModifiedLocalDateTime()
+                                        );
+                                        timeRegistry.setAssignedUser(
+                                                timeRegistryFromUpdateDto.getAssignedUser()
+                                        );
+                                        timeRegistry.setLastModifiedByUser(
+                                                timeRegistryFromUpdateDto.getLastModifiedByUser()
+                                        );
+                                        timeRegistry.setAssignedProject(
+                                                timeRegistryFromUpdateDto.getAssignedProject()
+                                        );
                                         return timeRegistry;
                                     })
                             );
