@@ -1,6 +1,7 @@
 package WORETO.resources.systems;
 
 import WORETO.business_controller.systems.CreateUserController;
+import WORETO.business_controller.systems.UpdateUserController;
 import WORETO.business_controller.systems.UserController;
 import WORETO.dtos.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,15 @@ public class ActiveDirectoryResource {
 
     private UserController userController;
     private CreateUserController createUserController;
+    private UpdateUserController updateUserController;
 
     @Autowired
     public ActiveDirectoryResource(UserController userController,
-                                   CreateUserController createUser) {
+                                   CreateUserController createUser,
+                                   UpdateUserController updateUserController) {
         this.userController = userController;
         this.createUserController = createUser;
+        this.updateUserController = updateUserController;
     }
 
     @PostMapping()
@@ -34,7 +38,7 @@ public class ActiveDirectoryResource {
 
     @PutMapping()
     public Mono<UserDto> updateUser(@Valid @RequestBody UserDto userDto) {
-        return this.userController.updateUser(userDto);
+        return this.updateUserController.updateUser(userDto);
     }
 
     @PutMapping(value = DISABLE + USER_EMAIL)
