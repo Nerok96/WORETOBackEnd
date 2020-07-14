@@ -1,5 +1,6 @@
 package WORETO.resources.systems;
 
+import WORETO.business_controller.systems.CreateUserController;
 import WORETO.business_controller.systems.UserController;
 import WORETO.dtos.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +18,18 @@ public class ActiveDirectoryResource {
     public static final String USER_EMAIL = "/{email}";
 
     private UserController userController;
+    private CreateUserController createUserController;
 
     @Autowired
-    public ActiveDirectoryResource(UserController userController) {
+    public ActiveDirectoryResource(UserController userController,
+                                   CreateUserController createUser) {
         this.userController = userController;
+        this.createUserController = createUser;
     }
 
     @PostMapping()
     public Mono<UserDto> creatUser(@Valid @RequestBody UserDto userDto) {
-        return this.userController.createUser(userDto);
+        return this.createUserController.createUser(userDto);
     }
 
     @PutMapping()
