@@ -157,7 +157,7 @@ public class DatabaseSeedService {
                         .assignedProject(this.projectsArray.get(0))
                         .assignedLocalDateTime(fixedLdt)
                         .minutesWorked(20)
-                        .status(Status.SUBMITTED)
+                        .status(Status.READY)
                         .description("Working hard")
                         .createdByUser(this.usersArray.get(3))
                         .build(),
