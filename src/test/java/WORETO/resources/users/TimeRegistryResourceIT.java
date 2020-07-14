@@ -3,6 +3,7 @@ package WORETO.resources.users;
 import WORETO.documents.Status;
 import WORETO.dtos.TimeRegistryCreationDto;
 import WORETO.dtos.TimeRegistryReadDetailDto;
+import WORETO.dtos.TimeRegistryUpdateDto;
 import WORETO.resources.ApiTestConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,7 @@ public class TimeRegistryResourceIT {
     }
 
     @Test
-    void createTimeRegistry() {
+    void testCreateTimeRegistry() {
         LocalDateTime ldt = LocalDateTime.now();
         String email = "admin@admin.com";
         Integer minutesWorked = 10;
@@ -83,5 +84,52 @@ public class TimeRegistryResourceIT {
         assertEquals(Status.DRAFT, timeRegistryReadDetailDto.getStatus());
         assertEquals(email, timeRegistryReadDetailDto.getCreatedByUserEmail());
         assertEquals(description, timeRegistryReadDetailDto.getDescription());
+    }
+
+    @Test
+    void testUpdateTimeRegistry() {
+        String assignedUserEmail = "admin@admin.com";
+        String assignedProject = "1";
+        LocalDateTime assignedLocalDateTime = LocalDateTime.now();
+        Integer minutesWorked = 22;
+        Status status = Status.DRAFT;
+        String description = "Working not so hard";
+        String timeRegistryId = "5";
+        String lastModifiedEmail = "admin@admin.com";
+
+        TimeRegistryUpdateDto timeRegistryUpdateDto = new TimeRegistryUpdateDto();
+        timeRegistryUpdateDto.setId(timeRegistryId);
+        timeRegistryUpdateDto.setAssignedUserEmail(assignedUserEmail);
+        timeRegistryUpdateDto.setAssignedProjectId(assignedProject);
+        timeRegistryUpdateDto.setAssignedLocalDateTime(assignedLocalDateTime);
+        timeRegistryUpdateDto.setMinutesWorked(minutesWorked);
+        timeRegistryUpdateDto.setStatus(status);
+        timeRegistryUpdateDto.setDescription(description);
+        timeRegistryUpdateDto.setLastModifiedByUserEmail(lastModifiedEmail);
+
+        TimeRegistryReadDetailDto timeRegistryReadDetailDtoBeforeEdit = this.webTestClient
+                .get().uri(contextPath + TIME_REGISTRIES + TIME_REGISTRIES_ID, timeRegistryId)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(TimeRegistryReadDetailDto.class)
+                .value(Assertions::assertNotNull)
+                .returnResult().getResponseBody();
+        assertNotNull(timeRegistryReadDetailDtoBeforeEdit);
+        assertNotEquals(assignedUserEmail, timeRegistryReadDetailDtoBeforeEdit.getAssignedUserEmail());
+
+        TimeRegistryReadDetailDto timeRegistryReadDetailDtoAfterEdit = this.webTestClient
+                .put().uri(contextPath + TIME_REGISTRIES, timeRegistryId)
+                .body(BodyInserters.fromObject(timeRegistryUpdateDto))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(TimeRegistryReadDetailDto.class)
+                .value(Assertions::assertNotNull)
+                .returnResult().getResponseBody();
+        assertNotNull(timeRegistryReadDetailDtoAfterEdit);
+        assertEquals(timeRegistryReadDetailDtoBeforeEdit.getId(),
+                timeRegistryReadDetailDtoAfterEdit.getId());
+        assertNotEquals(timeRegistryReadDetailDtoBeforeEdit.getMinutesWorked(),
+                timeRegistryReadDetailDtoAfterEdit.getMinutesWorked());
+        assertEquals(assignedUserEmail, timeRegistryReadDetailDtoAfterEdit.getAssignedUserEmail());
     }
 }
