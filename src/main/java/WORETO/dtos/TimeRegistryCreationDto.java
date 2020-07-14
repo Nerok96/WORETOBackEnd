@@ -5,34 +5,34 @@ import WORETO.documents.User;
 
 public class TimeRegistryCreationDto extends TimeRegistryCommonDto {
 
-    private User createdByUser;
+    private String createdByUserEmail;
 
     public TimeRegistryCreationDto() {
     }
 
     public TimeRegistryCreationDto(TimeRegistry timeRegistry) {
-        super(timeRegistry.getAssignedUser(),
-                timeRegistry.getAssignedProject(),
+        super(timeRegistry.getAssignedUser().getEmail(),
+                timeRegistry.getAssignedProject().getId(),
                 timeRegistry.getAssignedLocalDateTime(),
                 timeRegistry.getMinutesWorked(),
                 timeRegistry.getStatus(),
                 timeRegistry.getDescription());
-        this.createdByUser = timeRegistry.getCreatedByUser();
+        this.createdByUserEmail = timeRegistry.getCreatedByUser().getEmail();
     }
 
-    public User getCreatedByUser() {
-        return createdByUser;
+    public String getCreatedByUserEmail() {
+        return createdByUserEmail;
     }
 
-    public void setCreatedByUser(User createdByUser) {
-        this.createdByUser = createdByUser;
+    public void setCreatedByUserEmail(String createdByUserEmail) {
+        this.createdByUserEmail = createdByUserEmail;
     }
 
     @Override
     public String toString() {
         return "TimeRegistryCreationDto{" +
                 super.toString() +
-                ", createdByUser=" + createdByUser +
+                ", createdByUserEmail=" + createdByUserEmail +
                 '}';
     }
 }

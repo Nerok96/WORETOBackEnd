@@ -4,7 +4,7 @@ import WORETO.documents.Status;
 import WORETO.documents.TimeRegistry;
 import WORETO.dtos.TimeRegistryCommonDto;
 import WORETO.dtos.TimeRegistryCreationDto;
-import WORETO.dtos.TimeRegistryDto;
+import WORETO.dtos.TimeRegistryReadDetailDto;
 import WORETO.dtos.TimeRegistryUpdateDto;
 import org.springframework.stereotype.Controller;
 
@@ -29,8 +29,8 @@ public class ValidateTimeRegistryController {
                 Objects.nonNull(timeRegistry.getLastModifiedLocalDateTime()) &&
                 validateTimeRegistryCommonFields(
                         new TimeRegistryCommonDto(
-                                timeRegistry.getAssignedUser(),
-                                timeRegistry.getAssignedProject(),
+                                timeRegistry.getAssignedUser().getEmail(),
+                                timeRegistry.getAssignedProject().getId(),
                                 timeRegistry.getAssignedLocalDateTime(),
                                 timeRegistry.getMinutesWorked(),
                                 timeRegistry.getStatus(),
@@ -39,30 +39,30 @@ public class ValidateTimeRegistryController {
                 );
     }
 
-    public Boolean validateTimeRegistry(TimeRegistryDto timeRegistryDto) {
-        return Objects.nonNull(timeRegistryDto.getId()) &&
-                Objects.nonNull(timeRegistryDto.getCreatedByUser()) &&
-                Objects.nonNull(timeRegistryDto.getCreatedAtLocalDateTime()) &&
-                Objects.nonNull(timeRegistryDto.getLastModifiedByUser()) &&
-                Objects.nonNull(timeRegistryDto.getLastModifiedLocalDateTime()) &&
+    public Boolean validateTimeRegistry(TimeRegistryReadDetailDto timeRegistryReadDetailDto) {
+        return Objects.nonNull(timeRegistryReadDetailDto.getId()) &&
+                Objects.nonNull(timeRegistryReadDetailDto.getCreatedByUserEmail()) &&
+                Objects.nonNull(timeRegistryReadDetailDto.getCreatedAtLocalDateTime()) &&
+                Objects.nonNull(timeRegistryReadDetailDto.getLastModifiedByUserEmail()) &&
+                Objects.nonNull(timeRegistryReadDetailDto.getLastModifiedLocalDateTime()) &&
                 validateTimeRegistryCommonFields(
                         new TimeRegistryCommonDto(
-                                timeRegistryDto.getAssignedUser(),
-                                timeRegistryDto.getAssignedProject(),
-                                timeRegistryDto.getAssignedLocalDateTime(),
-                                timeRegistryDto.getMinutesWorked(),
-                                timeRegistryDto.getStatus(),
-                                timeRegistryDto.getDescription()
+                                timeRegistryReadDetailDto.getAssignedUserEmail(),
+                                timeRegistryReadDetailDto.getAssignedProjectId(),
+                                timeRegistryReadDetailDto.getAssignedLocalDateTime(),
+                                timeRegistryReadDetailDto.getMinutesWorked(),
+                                timeRegistryReadDetailDto.getStatus(),
+                                timeRegistryReadDetailDto.getDescription()
                         )
                 );
     }
 
     public Boolean validateTimeRegistry(TimeRegistryCreationDto timeRegistryCreationDto) {
-        return Objects.nonNull(timeRegistryCreationDto.getCreatedByUser()) &&
+        return Objects.nonNull(timeRegistryCreationDto.getCreatedByUserEmail()) &&
                 validateTimeRegistryCommonFields(
                         new TimeRegistryCommonDto(
-                                timeRegistryCreationDto.getAssignedUser(),
-                                timeRegistryCreationDto.getAssignedProject(),
+                                timeRegistryCreationDto.getAssignedUserEmail(),
+                                timeRegistryCreationDto.getAssignedProjectId(),
                                 timeRegistryCreationDto.getAssignedLocalDateTime(),
                                 timeRegistryCreationDto.getMinutesWorked(),
                                 timeRegistryCreationDto.getStatus(),
@@ -72,11 +72,11 @@ public class ValidateTimeRegistryController {
 
     public Boolean validateTimeRegistry(TimeRegistryUpdateDto timeRegistryUpdateDto) {
         return Objects.nonNull(timeRegistryUpdateDto.getId()) &&
-                Objects.nonNull(timeRegistryUpdateDto.getLastModifiedByUser()) &&
+                Objects.nonNull(timeRegistryUpdateDto.getLastModifiedByUserEmail()) &&
                 validateTimeRegistryCommonFields(
                         new TimeRegistryCommonDto(
-                                timeRegistryUpdateDto.getAssignedUser(),
-                                timeRegistryUpdateDto.getAssignedProject(),
+                                timeRegistryUpdateDto.getAssignedUserEmail(),
+                                timeRegistryUpdateDto.getAssignedProjectId(),
                                 timeRegistryUpdateDto.getAssignedLocalDateTime(),
                                 timeRegistryUpdateDto.getMinutesWorked(),
                                 timeRegistryUpdateDto.getStatus(),
@@ -85,8 +85,8 @@ public class ValidateTimeRegistryController {
     }
 
     private Boolean validateTimeRegistryCommonFields(TimeRegistryCommonDto timeRegistryCommonDto) {
-        return Objects.nonNull(timeRegistryCommonDto.getAssignedUser()) &&
-                Objects.nonNull(timeRegistryCommonDto.getAssignedProject()) &&
+        return Objects.nonNull(timeRegistryCommonDto.getAssignedUserEmail()) &&
+                Objects.nonNull(timeRegistryCommonDto.getAssignedProjectId()) &&
                 Objects.nonNull(timeRegistryCommonDto.getAssignedLocalDateTime()) &&
                 Objects.nonNull(timeRegistryCommonDto.getMinutesWorked()) &&
                 Objects.nonNull(timeRegistryCommonDto.getStatus()) &&

@@ -6,21 +6,20 @@ import WORETO.documents.User;
 public class TimeRegistryUpdateDto extends TimeRegistryCommonDto {
 
     private String id;
-    private User lastModifiedByUser;
+    private String lastModifiedByUserEmail;
 
     public TimeRegistryUpdateDto() {
     }
 
     public TimeRegistryUpdateDto(TimeRegistry timeRegistry) {
-        super(timeRegistry.getAssignedUser(),
-                timeRegistry.getAssignedProject(),
+        super(timeRegistry.getAssignedUser().getEmail(),
+                timeRegistry.getAssignedProject().getId(),
                 timeRegistry.getAssignedLocalDateTime(),
                 timeRegistry.getMinutesWorked(),
                 timeRegistry.getStatus(),
-                timeRegistry.getDescription()
-        );
+                timeRegistry.getDescription());
         this.id = timeRegistry.getId();
-        this.lastModifiedByUser = timeRegistry.getLastModifiedByUser();
+        this.lastModifiedByUserEmail = timeRegistry.getLastModifiedByUser().getEmail();
     }
 
     public String getId() {
@@ -31,12 +30,12 @@ public class TimeRegistryUpdateDto extends TimeRegistryCommonDto {
         this.id = id;
     }
 
-    public User getLastModifiedByUser() {
-        return lastModifiedByUser;
+    public String getLastModifiedByUserEmail() {
+        return lastModifiedByUserEmail;
     }
 
-    public void setLastModifiedByUser(User lastModifiedByUser) {
-        this.lastModifiedByUser = lastModifiedByUser;
+    public void setLastModifiedByUserEmail(String lastModifiedByUserEmail) {
+        this.lastModifiedByUserEmail = lastModifiedByUserEmail;
     }
 
     @Override
@@ -44,7 +43,7 @@ public class TimeRegistryUpdateDto extends TimeRegistryCommonDto {
         return "TimeRegistryUpdateDto{" +
                 "id='" + id + '\'' +
                 super.toString() +
-                ", lastModifiedByUser=" + lastModifiedByUser +
+                ", lastModifiedByUserEmail=" + lastModifiedByUserEmail +
                 '}';
     }
 }
