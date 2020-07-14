@@ -1,9 +1,11 @@
 package WORETO.business_controller.users;
 
 import WORETO.documents.Project;
+import WORETO.documents.Status;
 import WORETO.documents.TimeRegistry;
 import WORETO.documents.User;
 import WORETO.dtos.TimeRegistryCreationDto;
+import WORETO.dtos.TimeRegistryMinimumDto;
 import WORETO.dtos.TimeRegistryReadDetailDto;
 import WORETO.dtos.TimeRegistryUpdateDto;
 import WORETO.repositories.ProjectReactrepository;
@@ -12,8 +14,10 @@ import WORETO.repositories.UserReactRepository;
 import WORETO.services.SequenceGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Controller
@@ -42,11 +46,20 @@ public class TimeRegistryController {
         return this.timeRegistryReactRepository.findById(id).map(TimeRegistryReadDetailDto::new);
     }
 
+    public Flux<TimeRegistryMinimumDto> readAllTimeRegistriesByLocalDateAndStatusAndAssignedUserEmail(
+            LocalDate localDate, Status status, String email) {
+        User assignedUser = this.userReactRepository.findByEmail(email).block();
+        return timeRegistryReactRepository
+                .findByAssignedLocalDateAndStatusAndAssignedUser(localDate, status, assignedUser)
+                .map(TimeRegistryMinimumDto::new);
+
+    }
+
     public Mono<TimeRegistryReadDetailDto> createTimeRegistry(TimeRegistryCreationDto timeRegistryCreationDto) {
         if (validateTimeRegistryController.validateTimeRegistry(timeRegistryCreationDto)) {
             TimeRegistry timeRegistry = TimeRegistry.builder()
                     .id(sequenceGenerator.getNextSequence(TimeRegistry.SEQUENCE_NAME))
-                    .assignedLocalDateTime(timeRegistryCreationDto.getAssignedLocalDateTime())
+                    .assignedLocalDate(timeRegistryCreationDto.getAssignedLocalDate())
                     .minutesWorked(timeRegistryCreationDto.getMinutesWorked())
                     .status(timeRegistryCreationDto.getStatus())
                     .description(timeRegistryCreationDto.getDescription())
@@ -70,7 +83,7 @@ public class TimeRegistryController {
     public Mono<TimeRegistryReadDetailDto> updateTimeRegistry(TimeRegistryUpdateDto timeRegistryUpdateDto) {
         if (validateTimeRegistryController.validateDraftStatus(timeRegistryUpdateDto)) {
             TimeRegistry timeRegistryFromUpdateDto = TimeRegistry.builder()
-                    .assignedLocalDateTime(timeRegistryUpdateDto.getAssignedLocalDateTime())
+                    .assignedLocalDate(timeRegistryUpdateDto.getAssignedLocalDate())
                     .minutesWorked(timeRegistryUpdateDto.getMinutesWorked())
                     .status(timeRegistryUpdateDto.getStatus())
                     .description(timeRegistryUpdateDto.getDescription())
@@ -107,8 +120,8 @@ public class TimeRegistryController {
                 then(this.timeRegistryReactRepository
                         .findById(timeRegistryUpdateDto.getId())
                         .map(timeRegistry -> {
-                            timeRegistry.setAssignedLocalDateTime(
-                                    timeRegistryFromUpdateDto.getAssignedLocalDateTime()
+                            timeRegistry.setAssignedLocalDate(
+                                    timeRegistryFromUpdateDto.getAssignedLocalDate()
                             );
                             timeRegistry.setMinutesWorked(
                                     timeRegistryFromUpdateDto.getMinutesWorked()
