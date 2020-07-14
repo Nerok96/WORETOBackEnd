@@ -85,44 +85,54 @@ public class TimeRegistryController {
             Mono<Project> assignedProjectMono = this.projectReactrepository
                     .findById(timeRegistryUpdateDto.getAssignedProjectId())
                     .doOnNext(timeRegistryFromUpdateDto::setAssignedProject);
-            Mono<TimeRegistry> timeRegistryMono =
-                    Mono.when(assignedUserMono, assignedProjectMono, lastModifiedByUserMono).
-                            then(this.timeRegistryReactRepository
-                                    .findById(timeRegistryUpdateDto.getId())
-                                    .map(timeRegistry -> {
-                                        timeRegistry.setAssignedLocalDateTime(
-                                                timeRegistryFromUpdateDto.getAssignedLocalDateTime()
-                                        );
-                                        timeRegistry.setMinutesWorked(
-                                                timeRegistryFromUpdateDto.getMinutesWorked()
-                                        );
-                                        timeRegistry.setStatus(
-                                                timeRegistryFromUpdateDto.getStatus()
-                                        );
-                                        timeRegistry.setDescription(
-                                                timeRegistryFromUpdateDto.getDescription()
-                                        );
-                                        timeRegistry.setLastModifiedLocalDateTime(
-                                                timeRegistryFromUpdateDto.getLastModifiedLocalDateTime()
-                                        );
-                                        timeRegistry.setAssignedUser(
-                                                timeRegistryFromUpdateDto.getAssignedUser()
-                                        );
-                                        timeRegistry.setLastModifiedByUser(
-                                                timeRegistryFromUpdateDto.getLastModifiedByUser()
-                                        );
-                                        timeRegistry.setAssignedProject(
-                                                timeRegistryFromUpdateDto.getAssignedProject()
-                                        );
-                                        return timeRegistry;
-                                    })
-                            );
-            return Mono.when(timeRegistryMono)
-                    .then(this.timeRegistryReactRepository.saveAll(timeRegistryMono)
-                            .next())
+            Mono<TimeRegistry> timeRegistryMono = doTheUpdate(timeRegistryUpdateDto,
+                    timeRegistryFromUpdateDto,
+                    assignedUserMono,
+                    lastModifiedByUserMono,
+                    assignedProjectMono);
+            return this.timeRegistryReactRepository.saveAll(timeRegistryMono)
+                    .next()
                     .map(TimeRegistryReadDetailDto::new);
         } else {
             return null;
         }
+    }
+
+    private Mono<TimeRegistry> doTheUpdate(TimeRegistryUpdateDto timeRegistryUpdateDto,
+                                           TimeRegistry timeRegistryFromUpdateDto,
+                                           Mono<User> assignedUserMono,
+                                           Mono<User> lastModifiedByUserMono,
+                                           Mono<Project> assignedProjectMono) {
+        return Mono.when(assignedUserMono, assignedProjectMono, lastModifiedByUserMono).
+                then(this.timeRegistryReactRepository
+                        .findById(timeRegistryUpdateDto.getId())
+                        .map(timeRegistry -> {
+                            timeRegistry.setAssignedLocalDateTime(
+                                    timeRegistryFromUpdateDto.getAssignedLocalDateTime()
+                            );
+                            timeRegistry.setMinutesWorked(
+                                    timeRegistryFromUpdateDto.getMinutesWorked()
+                            );
+                            timeRegistry.setStatus(
+                                    timeRegistryFromUpdateDto.getStatus()
+                            );
+                            timeRegistry.setDescription(
+                                    timeRegistryFromUpdateDto.getDescription()
+                            );
+                            timeRegistry.setLastModifiedLocalDateTime(
+                                    timeRegistryFromUpdateDto.getLastModifiedLocalDateTime()
+                            );
+                            timeRegistry.setAssignedUser(
+                                    timeRegistryFromUpdateDto.getAssignedUser()
+                            );
+                            timeRegistry.setLastModifiedByUser(
+                                    timeRegistryFromUpdateDto.getLastModifiedByUser()
+                            );
+                            timeRegistry.setAssignedProject(
+                                    timeRegistryFromUpdateDto.getAssignedProject()
+                            );
+                            return timeRegistry;
+                        })
+                );
     }
 }
