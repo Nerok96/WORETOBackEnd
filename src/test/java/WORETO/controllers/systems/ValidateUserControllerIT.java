@@ -1,21 +1,20 @@
 package WORETO.controllers.systems;
 
 import WORETO.TestConfig;
-import WORETO.business_controller.systems.UserValidator;
+import WORETO.business_controller.systems.ValidateUserController;
 import WORETO.documents.Role;
 import WORETO.documents.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import reactor.test.StepVerifier;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestConfig
-public class UserValidatorIT {
+public class ValidateUserControllerIT {
 
     @Autowired
-    private UserValidator userValidator;
+    private ValidateUserController validateUserController;
 
     @Test
     void testValidateUserValidUser(){
@@ -27,7 +26,7 @@ public class UserValidatorIT {
                 .password("password")
                 .roles(Role.TIMERECORDER)
                 .build();
-        assertTrue(userValidator.validateUser(user));
+        assertTrue(validateUserController.validateUser(user));
     }
 
     @Test
@@ -36,6 +35,6 @@ public class UserValidatorIT {
                 .email("new email")
                 .build();
         user.setPassword(null);
-        assertFalse(userValidator.validateUser(user));
+        assertFalse(validateUserController.validateUser(user));
     }
 }

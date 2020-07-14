@@ -13,15 +13,15 @@ public class DisableUserController {
 
     private UserReactRepository userReactRepository;
     private SequenceGenerator sequenceGenerator;
-    private UserValidator userValidator;
+    private ValidateUserController validateUserController;
 
     @Autowired
     public DisableUserController(UserReactRepository userReactRepository,
                                  SequenceGenerator sequenceGenerator,
-                                 UserValidator userValidator) {
+                                 ValidateUserController validateUserController) {
         this.userReactRepository = userReactRepository;
         this.sequenceGenerator = sequenceGenerator;
-        this.userValidator = userValidator;
+        this.validateUserController = validateUserController;
     }
 
 
