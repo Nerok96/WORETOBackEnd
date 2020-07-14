@@ -94,7 +94,7 @@ public class TimeRegistryResourceIT {
         Integer minutesWorked = 22;
         Status status = Status.DRAFT;
         String description = "Working not so hard";
-        String timeRegistryId = "5";
+        String timeRegistryId = "2";
         String lastModifiedEmail = "admin@admin.com";
 
         TimeRegistryUpdateDto timeRegistryUpdateDto = new TimeRegistryUpdateDto();
@@ -131,22 +131,5 @@ public class TimeRegistryResourceIT {
         assertNotEquals(timeRegistryReadDetailDtoBeforeEdit.getMinutesWorked(),
                 timeRegistryReadDetailDtoAfterEdit.getMinutesWorked());
         assertEquals(assignedUserEmail, timeRegistryReadDetailDtoAfterEdit.getAssignedUserEmail());
-    }
-
-    @Test
-    void testDeleteTimeRegistry() {
-        String timeRegistryId = "5";
-        this.webTestClient
-                .delete().uri(contextPath + TIME_REGISTRIES + TIME_REGISTRIES_ID, timeRegistryId)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody(TimeRegistryReadDetailDto.class)
-                .value(Assertions::assertNull);
-        this.webTestClient
-                .get().uri(contextPath + TIME_REGISTRIES + TIME_REGISTRIES_ID, timeRegistryId)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody(TimeRegistryReadDetailDto.class)
-                .value(Assertions::assertNull);
     }
 }
